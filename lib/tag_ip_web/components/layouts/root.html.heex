@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="TagIp" suffix=" · PiEvents" phx-no-format>{assigns[:page_title]}</.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+    <script>
+      (() => {
+        const setTheme = (theme) => {
+          if (theme === "system") {
+            localStorage.removeItem("phx:theme");
+            document.documentElement.removeAttribute("data-theme");
+          } else {
+            localStorage.setItem("phx:theme", theme);
+            document.documentElement.setAttribute("data-theme", theme);
+          }
+        };
+        if (!document.documentElement.hasAttribute("data-theme")) {
+          setTheme(localStorage.getItem("phx:theme") || "system");
+        }
+        window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
+        window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+      })();
+    </script>
+  </head>
+
+  <body class="bg-slate-50 h-screen flex flex-col font-sans antialiased overflow-hidden text-slate-900">
+    
+<!-- HEADER : Immobile (Glassmorphism) -->
+    <header class="flex-none sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm">
+      <div class="h-1 w-full bg-gradient-to-r from-blue-600" />
+      <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-10">
+        <div class="flex items-center justify-between h-16">
+          
+<!-- Logo & Brand -->
+          <div class="flex items-center group">
+            <a
+              href="/"
+              class="flex items-center gap-3 transition-transform duration-200 hover:scale-[1.02]"
+            >
+              <div class="flex items-center justify-center h-15 w-auto bg-white rounded-xl p-1 overflow-hidden">
+                <img
+                  class="h-full w-auto object-contain"
+                  src={~p"/images/logo.png"}
+                  alt="Logo Tag-IP"
+                />
+              </div>
+              <span class="text-lg font-bold text-slate-900 tracking-tight">PI-Events</span>
+            </a>
+          </div>
+          
+<!-- Status de connexion -->
+          <div class="flex items-center gap-3">
+            <span class="hidden sm:inline-flex items-center gap-2 text-[11px] font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 tracking-wide uppercase">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75">
+                </span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+              </span>
+              Connecté
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+<!-- ZONE CENTRALE : La seule zone qui scrolle -->
+    <main class="flex-1 overflow-y-auto w-full px-4 sm:px-6 lg:px-10 py-8 grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+      
+<!-- Sidebar de Navigation Moderne -->
+      <aside class="sticky top-0 h-fit max-lg:static">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 transition-shadow hover:shadow-md">
+          <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-6">
+            Menu Système
+          </h2>
+          <ul class="space-y-1.5">
+            <li>
+              <.link
+                navigate="/"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
+                </span>
+                Accueil
+              </.link>
+            </li>
+            <li>
+              <.link
+                navigate="/dashboard"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
+                </span>
+                Dashboard temps réel
+              </.link>
+            </li>
+            <li>
+              <.link
+                navigate="/init"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
+                </span>
+                Initialisation
+              </.link>
+            </li>
+            <li>
+              <.link
+                navigate="/monitoring"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
+                </span>
+                Système d'alertes
+              </.link>
+            </li>
+          </ul>
+          
+<!-- Petit Widget d'info Sidebar -->
+          <div class="mt-8 p-4 bg-slate-50 rounded-xl border border-slate-100">
+            <p class="text-[11px] text-slate-500 font-medium leading-relaxed italic">
+              "Configurez vos alertes depuis la section monitoring."
+            </p>
+          </div>
+        </div>
+      </aside>
+      
+<!-- Contenu Dynamique -->
+      <div class="space-y-6">
+        <.flash_group flash={@flash} />
+        {@inner_content}
+      </div>
+    </main>
+    
+<!-- FOOTER : Immobile et Moderne -->
+    <footer class="flex-none bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+      <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        
+<!-- Copyright & Version -->
+        <div class="flex items-center gap-4 text-sm font-medium text-slate-500">
+          <span>© 2026 <span class="text-slate-900 font-bold tracking-tight">Tag-IP</span></span>
+          <span class="text-slate-200 text-lg">|</span>
+          <span class="text-xs font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-400">
+            v1.2.0-stable
+          </span>
+        </div>
+        
+<!-- Status Pill Central -->
+        <div class="flex items-center gap-3 px-4 py-1.5 bg-slate-50 border border-slate-200 rounded-full shadow-inner">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75">
+            </span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-[10px] font-black text-slate-500 uppercase tracking-tighter">
+            Flux de données actif
+          </span>
+        </div>
+        
+<!-- Liens secondaires -->
+        <div class="flex gap-8 text-xs font-bold text-slate-400 uppercase tracking-widest">
+          <a href="#" class="hover:text-blue-600 transition-colors">Support</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Docs API</a>
+        </div>
+      </div>
+    </footer>
+
+    
+  </body>
+</html>
