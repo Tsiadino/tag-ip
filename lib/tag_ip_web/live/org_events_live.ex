@@ -2,11 +2,14 @@ defmodule TagIpWeb.OrgEventsLive do
   use TagIpWeb, :live_view
 
   alias TagIp.Repo
-  import Ecto.Query, only: [from: 1, from: 2]
+  # On importe seulement ce qui est nécessaire pour éviter les warnings inutilisés
+  import Ecto.Query, only: [from: 2]
 
   @impl true
   def mount(_params, _session, socket) do
-    # 1. Charger les événements
+    if connected?(socket), do: Phoenix.PubSub.subscribe(TagIp.PubSub, "global_events")
+
+    # On récupère les événements (Requête Ecto conservée pour la précision du select/limit)
     events =
       from(e in "event_definitions",
         select: %{
@@ -26,23 +29,34 @@ defmodule TagIpWeb.OrgEventsLive do
         |> Map.put(:enabled, event.active) 
       end)
 
-    # 2. CHARGER LES VRAIES ORGANISATIONS DEPUIS LA DB
-    # On récupère tous les noms pour alimenter le <select>
+    # Chargement des organisations
     organizations_list = Repo.all(from(o in "organizations", select: o.name, order_by: [asc: o.id]))
 
     {:ok,
       assign(socket,
         events: events,
-        organizations_list: organizations_list, # Nouvelle variable
-        organization: List.first(organizations_list) || "Aucune organisation" # Défaut sur la 1ère de la DB
+        organizations_list: organizations_list,
+        organization: List.first(organizations_list) || "Aucune organisation"
       )}
   end
 
+  # --- SYNCHRONISATION TEMPS RÉEL ---
   @impl true
-  def handle_event("mark_all_read", _params, socket) do
-    {:noreply, put_flash(socket, :info, "Toutes les notifications ont été marquées comme lues")}
+  def handle_info({:org_created, _new_name}, socket) do
+    new_list = Repo.all(from(o in "organizations", select: o.name, order_by: [asc: o.id]))
+    {:noreply, assign(socket, organizations_list: new_list)}
   end
 
+  @impl true
+  def handle_info({:global_reset, status}, socket) do
+    updated_events = Enum.map(socket.assigns.events, & %{&1 | enabled: status, active: status})
+    {:noreply, assign(socket, events: updated_events)}
+  end
+  
+  @impl true
+  def handle_info(_, socket), do: {:noreply, socket}
+
+  # --- GESTION DES ÉVÉNEMENTS UI ---
   @impl true
   def handle_event("toggle-enabled", %{"id" => id}, socket) do
     binary_id = Ecto.UUID.cast!(id)
@@ -50,24 +64,14 @@ defmodule TagIpWeb.OrgEventsLive do
     target_event = Enum.find(events, fn e -> to_string(e.id) == to_string(id) end)
     new_status = !target_event.enabled
 
-    # 1. SAUVEGARDE RÉELLE EN DB
+    # Mise à jour DB
     from(e in "event_definitions", where: e.id == type(^binary_id, Ecto.UUID))
     |> Repo.update_all(set: [active: new_status])
 
-    # 2. ENVOI AU DASHBOARD
-    Phoenix.PubSub.broadcast(
-      TagIp.PubSub,
-      "global_events",
-      {:global_event_toggled, id, new_status}
-    )
+    Phoenix.PubSub.broadcast(TagIp.PubSub, "global_events", {:global_event_toggled, id, new_status})
 
-    # 3. MISE À JOUR UI
     updated_events = Enum.map(events, fn event ->
-      if to_string(event.id) == to_string(id) do
-        %{event | enabled: new_status, active: new_status}
-      else
-        event
-      end
+      if to_string(event.id) == to_string(id), do: %{event | enabled: new_status, active: new_status}, else: event
     end)
 
     {:noreply, assign(socket, events: updated_events)}
@@ -77,7 +81,6 @@ defmodule TagIpWeb.OrgEventsLive do
   def render(assigns) do
     ~H"""
     <section class="space-y-6">
-      <%!-- Header --%>
       <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-fade-in-up">
         <div class="flex items-center gap-4 mb-4">
           <div class="size-12 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm shrink-0">
@@ -93,15 +96,12 @@ defmodule TagIpWeb.OrgEventsLive do
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <%!-- SÉLECTEUR D'ORGANISATION DYNAMIQUE --%>
         <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200 animate-fade-in-up delay-1">
           <h2 class="text-sm font-bold text-gray-900 mb-3">Organisation</h2>
+          <p class="text-xs text-gray-400 mb-2">Total : {length(@organizations_list)}</p>
           <div class="relative">
             <select class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700 appearance-none cursor-pointer">
-              <%!-- Option par défaut --%>
               <option selected>{@organization}</option>
-              
-              <%!-- BOUCLE SUR LES ORGANISATIONS DE LA DB --%>
               <%= for org_name <- @organizations_list do %>
                 <%= if org_name != @organization do %>
                   <option value={org_name}>{org_name}</option>
@@ -112,7 +112,6 @@ defmodule TagIpWeb.OrgEventsLive do
           </div>
         </div>
 
-        <%!-- Tableau des événements (identique au tien) --%>
         <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 animate-fade-in-up delay-2">
           <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
             <h2 class="text-sm font-bold text-gray-900">Événements disponibles</h2>
@@ -160,8 +159,6 @@ defmodule TagIpWeb.OrgEventsLive do
           </div>
         </div>
       </div>
-      
-      <%!-- Reste du template... --%>
     </section>
     """
   end
@@ -172,6 +169,5 @@ defmodule TagIpWeb.OrgEventsLive do
       :error -> id
     end
   end
-
   defp normalize_uuid(id), do: to_string(id)
 end

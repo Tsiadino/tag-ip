@@ -1,0 +1,523 @@
+[info] Running TagIpWeb.Endpoint with Bandit 1.11.0 at 127.0.0.1:4000 (http)
+[info] Access TagIpWeb.Endpoint at http://localhost:4000
+[watch] build finished, watching for changes...
+≈ tailwindcss v4.1.12
+
+Done in 87ms
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+[info] CONNECTED TO Phoenix.LiveView.Socket in 29µs
+  Transport: :longpoll
+  Serializer: Phoenix.Socket.V2.JSONSerializer
+  Parameters: %{"_csrf_token" => "[FILTERED]", "_live_referer" => "undefined", "_mount_attempts" => "0", "_mounts" => "0", "_track_static" => %{"0" => "http://localhost:4000/assets/css/app.css", "1" => "http://localhost:4000/assets/js/app.js"}, "vsn" => "2.0.0"}
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+[debug] MOUNT TagIpWeb.MonitoringLive
+  Parameters: %{}
+  Session: %{"_csrf_token" => "i0BQPI_tdJCjy4YzM1Cu0ATJ"}
+[debug] QUERY OK source="organizations" db=5.6ms decode=2.0ms queue=0.8ms idle=895.3ms
+SELECT o0."id", o0."name", o0."config", o0."inserted_at", o0."slug", o0."updated_at" FROM "organizations" AS o0 LIMIT $1 [1]
+[90m↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:860[0m
+[debug] QUERY OK source="alert_logs" db=0.9ms queue=1.7ms idle=980.9ms
+SELECT a0."id", a0."status", a0."timestamp", a0."event", a0."organization_id" FROM "alert_logs" AS a0 ORDER BY a0."timestamp" DESC []
+[90m↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:860[0m
+[debug] Replied in 222ms
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+[debug] HANDLE EVENT "update_config" in TagIpWeb.MonitoringLive
+  Parameters: %{"config" => %{"email_alert" => "fannie@tag-ip.com", "logs_enabled" => "true", "polling_interval" => "30", "webhook_url" => "https://webhook.site/7e5a7841-0982-411c-83bd-7a7ce6bd7483"}}
+[error] GenServer #PID<0.707.0> terminating
+** (FunctionClauseError) no function clause matching in TagIpWeb.MonitoringLive.handle_event/3
+    (tag_ip 0.1.0) lib/tag_ip_web/live/monitoring_live.ex:48: TagIpWeb.MonitoringLive.handle_event("update_config", %{"config" => %{"email_alert" => "fannie@tag-ip.com", "logs_enabled" => "true", "polling_interval" => "30", "webhook_url" => "https://webhook.site/7e5a7841-0982-411c-83bd-7a7ce6bd7483"}}, #Phoenix.LiveView.Socket<id: "phx-GK592owfmUjGOgdh", endpoint: TagIpWeb.Endpoint, view: TagIpWeb.MonitoringLive, parent_pid: nil, root_pid: #PID<0.707.0>, router: TagIpWeb.Router, assigns: %{__changed__: %{}, flash: %{}, live_action: :index, monitoring_config: %{webhook_url: "https://webhook.site/7e5a7841-0982-411c-83bd-7a7ce6bd7483", polling_interval: 30, email_alert: "fannie@tag-ip.com", logs_enabled: true}, current_organization_id: "2a57529b-e485-49ea-9217-e4864621bce7", alert_logs: [], audit_logs: []}, transport_pid: #PID<0.700.0>, sticky?: false, ...>)
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/channel.ex:530: anonymous fn/3 in Phoenix.LiveView.Channel.view_handle_event/3
+    (telemetry 1.4.1) /home/fannie/TAG-IP/events/tag_ip/deps/telemetry/src/telemetry.erl:359: :telemetry.span/3
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/channel.ex:260: Phoenix.LiveView.Channel.handle_info/2
+    (stdlib 6.0.1) gen_server.erl:2173: :gen_server.try_handle_info/3
+    (stdlib 6.0.1) gen_server.erl:2261: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+Process Label: {Phoenix.LiveView, TagIpWeb.MonitoringLive, "lv:phx-GK592owfmUjGOgdh"}
+Last message: %Phoenix.Socket.Message{topic: "lv:phx-GK592owfmUjGOgdh", event: "event", payload: %{"event" => "update_config", "meta" => %{}, "type" => "form", "value" => "config%5Bpolling_interval%5D=30&config%5Bwebhook_url%5D=https%3A%2F%2Fwebhook.site%2F7e5a7841-0982-411c-83bd-7a7ce6bd7483&config%5Bemail_alert%5D=fannie%40tag-ip.com&config%5Blogs_enabled%5D=false&config%5Blogs_enabled%5D=true"}, ref: "9", join_ref: "8"}
+State: %{socket: #Phoenix.LiveView.Socket<id: "phx-GK592owfmUjGOgdh", endpoint: TagIpWeb.Endpoint, view: TagIpWeb.MonitoringLive, parent_pid: nil, root_pid: #PID<0.707.0>, router: TagIpWeb.Router, assigns: %{__changed__: %{}, flash: %{}, live_action: :index, monitoring_config: %{webhook_url: "https://webhook.site/7e5a7841-0982-411c-83bd-7a7ce6bd7483", polling_interval: 30, email_alert: "fannie@tag-ip.com", logs_enabled: true}, current_organization_id: "2a57529b-e485-49ea-9217-e4864621bce7", alert_logs: [], audit_logs: []}, transport_pid: #PID<0.700.0>, sticky?: false, ...>, components: {%{}, %{}, 1}, topic: "lv:phx-GK592owfmUjGOgdh", serializer: Phoenix.Socket.V2.JSONSerializer, join_ref: "8", fingerprints: {305268566087919302314981291716203851260, %{2 => {112308930127112339007110270613687324977, %{}}, 7 => {112308930127112339007110270613687324977, %{}}, 8 => {112308930127112339007110270613687324977, %{}}, 11 => {113643915170391028094724964858838821090, %{3 => {214086119715184250044477659560989644840, %{0 => {112308930127112339007110270613687324977, %{}}}}}}, 12 => {113643915170391028094724964858838821090, %{3 => {243708345223327822083086721881854342530, %{0 => {112308930127112339007110270613687324977, %{}}}}}}}}, redirect_count: 0, upload_names: %{}, upload_pids: %{}}
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+[debug] MOUNT TagIpWeb.MonitoringLive
+  Parameters: %{}
+  Session: %{"_csrf_token" => "i0BQPI_tdJCjy4YzM1Cu0ATJ"}
+[debug] QUERY OK source="organizations" db=0.6ms idle=977.2ms
+SELECT o0."id", o0."name", o0."config", o0."inserted_at", o0."slug", o0."updated_at" FROM "organizations" AS o0 LIMIT $1 [1]
+[90m↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:860[0m
+[debug] QUERY OK source="alert_logs" db=0.7ms idle=978.4ms
+SELECT a0."id", a0."status", a0."timestamp", a0."event", a0."organization_id" FROM "alert_logs" AS a0 ORDER BY a0."timestamp" DESC []
+[90m↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:860[0m
+[debug] Replied in 2ms
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+[debug] HANDLE EVENT "test_webhook" in TagIpWeb.MonitoringLive
+  Parameters: %{"value" => ""}
+[debug] QUERY OK db=0.2ms idle=1321.7ms
+begin []
+[90m↳ Ash.DataLayer.run_transaction/5, at: lib/ash/data_layer/data_layer.ex:612[0m
+[debug] QUERY OK source="alert_logs" db=41.3ms
+INSERT INTO "alert_logs" ("id","status","timestamp","event","organization_id") VALUES ($1,$2,$3,$4,$5) RETURNING "organization_id","event","timestamp","status","id" ["5f8936bd-c63c-4af2-b94f-3cf32e712e7f", "sent", ~U[2026-05-11 11:06:02Z], "Vitesse > 90 km/h", "2a57529b-e485-49ea-9217-e4864621bce7"]
+[90m↳ anonymous fn/3 in Ecto.Adapters.SQL.checkout_or_transaction/4, at: lib/ecto/adapters/sql.ex:1473[0m
+[debug] QUERY OK db=22.3ms
+commit []
+[90m↳ Ash.DataLayer.run_transaction/5, at: lib/ash/data_layer/data_layer.ex:612[0m
+[debug] Replied in 262ms
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+[error] GenServer #PID<0.716.0> terminating
+** (KeyError) key :name not found in: #Ash.NotLoaded<:relationship, field: :organization,
+ resource: TagIp.Events.AlertLog>
+    (tag_ip 0.1.0) lib/tag_ip_web/live/monitoring_live.ex:236: anonymous fn/4 in TagIpWeb.MonitoringLive.render/1
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/diff.ex:790: Phoenix.LiveView.Diff.process_keyed/5
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/diff.ex:726: anonymous fn/6 in Phoenix.LiveView.Diff.traverse_keyed/8
+    (elixir 1.17.2) lib/enum.ex:2531: Enum."-reduce/3-lists^foldl/2-0-"/3
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/diff.ex:707: Phoenix.LiveView.Diff.traverse_keyed/8
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/diff.ex:540: Phoenix.LiveView.Diff.traverse/6
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/diff.ex:654: Phoenix.LiveView.Diff.traverse_dynamic/8
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/diff.ex:409: Phoenix.LiveView.Diff.traverse/6
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/diff.ex:157: Phoenix.LiveView.Diff.render/4
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/channel.ex:1019: anonymous fn/4 in Phoenix.LiveView.Channel.render_diff/3
+    (telemetry 1.4.1) /home/fannie/TAG-IP/events/tag_ip/deps/telemetry/src/telemetry.erl:359: :telemetry.span/3
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/channel.ex:1012: Phoenix.LiveView.Channel.render_diff/3
+    (phoenix_live_view 1.1.30) lib/phoenix_live_view/channel.ex:842: Phoenix.LiveView.Channel.handle_changed/4
+    (stdlib 6.0.1) gen_server.erl:2173: :gen_server.try_handle_info/3
+    (stdlib 6.0.1) gen_server.erl:2261: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+Process Label: {Phoenix.LiveView, TagIpWeb.MonitoringLive, "lv:phx-GK592owfmUjGOgdh"}
+Last message: {:new_alert, %TagIp.Events.AlertLog{id: "5f8936bd-c63c-4af2-b94f-3cf32e712e7f", event: "Vitesse > 90 km/h", status: "sent", timestamp: ~U[2026-05-11 11:06:02Z], organization_id: "2a57529b-e485-49ea-9217-e4864621bce7", organization: #Ash.NotLoaded<:relationship, field: :organization>, __meta__: #Ecto.Schema.Metadata<:loaded, "alert_logs">}}
+State: %{socket: #Phoenix.LiveView.Socket<id: "phx-GK592owfmUjGOgdh", endpoint: TagIpWeb.Endpoint, view: TagIpWeb.MonitoringLive, parent_pid: nil, root_pid: #PID<0.716.0>, router: TagIpWeb.Router, assigns: %{__changed__: %{}, flash: %{"info" => "Signal envoyé et enregistré en base !"}, live_action: :index, monitoring_config: %{webhook_url: "https://webhook.site/7e5a7841-0982-411c-83bd-7a7ce6bd7483", polling_interval: 30, email_alert: "fannie@tag-ip.com", logs_enabled: true}, current_organization_id: "2a57529b-e485-49ea-9217-e4864621bce7", alert_logs: [], audit_logs: []}, transport_pid: #PID<0.700.0>, sticky?: false, ...>, components: {%{}, %{}, 1}, topic: "lv:phx-GK592owfmUjGOgdh", serializer: Phoenix.Socket.V2.JSONSerializer, join_ref: "10", fingerprints: {305268566087919302314981291716203851260, %{0 => {8335076124091056488150681413377369329, %{0 => {112308930127112339007110270613687324977, %{}}}}, 2 => {112308930127112339007110270613687324977, %{}}, 7 => {112308930127112339007110270613687324977, %{}}, 8 => {112308930127112339007110270613687324977, %{}}, 11 => {113643915170391028094724964858838821090, %{3 => {214086119715184250044477659560989644840, %{0 => {112308930127112339007110270613687324977, %{}}}}}}, 12 => {113643915170391028094724964858838821090, %{3 => {243708345223327822083086721881854342530, %{0 => {112308930127112339007110270613687324977, %{}}}}}}}}, redirect_count: 0, upload_names: %{}, upload_pids: %{}}
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+[debug] MOUNT TagIpWeb.MonitoringLive
+  Parameters: %{}
+  Session: %{"_csrf_token" => "i0BQPI_tdJCjy4YzM1Cu0ATJ"}
+[debug] QUERY OK source="organizations" db=0.3ms idle=1070.0ms
+SELECT o0."id", o0."name", o0."config", o0."inserted_at", o0."slug", o0."updated_at" FROM "organizations" AS o0 LIMIT $1 [1]
+[90m↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:860[0m
+[debug] QUERY OK source="alert_logs" db=0.8ms idle=533.2ms
+SELECT a0."id", a0."status", a0."timestamp", a0."event", a0."organization_id" FROM "alert_logs" AS a0 ORDER BY a0."timestamp" DESC []
+[90m↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:860[0m
+[debug] QUERY OK source="organizations" db=0.5ms queue=20.7ms idle=659.2ms
+SELECT o0."id", o0."name", o0."config", o0."inserted_at", o0."slug", o0."updated_at" FROM "organizations" AS o0 WHERE (o0."id"::uuid = ANY($1::uuid[])) [["2a57529b-e485-49ea-9217-e4864621bce7"]]
+[90m↳ anonymous fn/3 in AshPostgres.DataLayer.run_query/2, at: lib/data_layer.ex:860[0m
+[debug] Replied in 148ms
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+
+** (RuntimeError) could not compile application: tag_ip.
+
+You must restart your server after changing configuration files or your dependencies.
+In particular, the following files changed and must be recomputed on a server restart:
+
+  * config/dev.exs
+
+
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:308: Phoenix.CodeReloader.Server.mix_compile_unless_stale_config/5
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:231: Phoenix.CodeReloader.Server.mix_compile/6
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:88: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:393: Phoenix.CodeReloader.Server.proxy_io/1
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:85: anonymous fn/5 in Phoenix.CodeReloader.Server.handle_call/3
+    (phoenix 1.8.7) lib/phoenix/code_reloader/server.ex:70: Phoenix.CodeReloader.Server.handle_call/3
+    (stdlib 6.0.1) gen_server.erl:2209: :gen_server.try_handle_call/4
+    (stdlib 6.0.1) gen_server.erl:2238: :gen_server.handle_msg/6
+    (stdlib 6.0.1) proc_lib.erl:329: :proc_lib.init_p_do_apply/3
+

@@ -18,14 +18,11 @@ defmodule TagIpWeb.InitLive do
   # Handler pour ajouter une organisation avec persistance DB
   @impl true
   def handle_event("add_org", _params, socket) do
-    # 1. On calcule le numéro de la nouvelle organisation
+    # 1. Calcul et insertion
     count = Repo.aggregate(from(o in "organizations"), :count, :id)
     new_id = count + 1
     name = "Organization #{new_id}"
     slug = "org_#{new_id}"
-    
-    # 2. Insertion réelle dans la table SQL
-    # Note : On ajoute les timestamps car Ecto en a besoin pour la table qu'on a créée
     now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
     
     Repo.insert_all("organizations", [[
@@ -34,11 +31,18 @@ defmodule TagIpWeb.InitLive do
       inserted_at: now, 
       updated_at: now
     ]])
+
+    # 2. ENVOI DU SIGNAL (C'est ça qui fait la magie)
+    Phoenix.PubSub.broadcast(
+      TagIp.PubSub,
+      "global_events",
+      {:org_created, name}
+    )
     
     {:noreply, 
-     socket 
-     |> put_flash(:info, "#{name} a été créée avec succès !")
-     |> refresh_all_data()}
+    socket 
+    |> put_flash(:info, "#{name} créée !")
+    |> refresh_all_data()}
   end
 
   @impl true

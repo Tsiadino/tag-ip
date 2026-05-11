@@ -1,18 +1,34 @@
 defmodule TagIpWeb.HomeLive do
   use TagIpWeb, :live_view
 
-  alias TagIp.Repo
-  import Ecto.Query, only: [from: 1]
-
   @impl true
   def mount(_params, _session, socket) do
-    event_count = Repo.aggregate(from(e in "event_definitions"), :count, :id)
+    # 1. S'abonner au canal "global_events" pour le temps réel
+    if connected?(socket), do: Phoenix.PubSub.subscribe(TagIp.PubSub, "global_events")
+
+    # 2. Charger les comptes via ASH (plus besoin de Repo ou d'Ecto.Query)
+    # On utilise count!() qui est fourni nativement par Ash
+    event_count = TagIp.Events.EventDefinition |> Ash.count!()
+    org_count = TagIp.Accounts.Organization |> Ash.count!()
 
     {:ok,
      assign(socket,
-       event_count: event_count
+       event_count: event_count,
+       org_count: org_count
      )}
   end
+
+  # --- SYNCHRONISATION TEMPS RÉEL ---
+  
+  @impl true
+  def handle_info({:org_created, _name}, socket) do
+    # On incrémente le compteur actuel dans le socket sans recharger la DB
+    new_count = socket.assigns.org_count + 1
+    {:noreply, assign(socket, org_count: new_count)}
+  end
+
+  @impl true
+  def handle_info(_msg, socket), do: {:noreply, socket}
 
   @impl true
   def handle_event("mark_all_read", _params, socket) do
@@ -72,7 +88,7 @@ defmodule TagIpWeb.HomeLive do
             Activez et personnalisez les événements par organisation.
           </p>
           <div class="bg-gray-50 rounded-lg p-4 text-center border border-gray-200 mb-5">
-            <p class="text-3xl font-extrabold text-gray-900">3</p>
+            <p class="text-3xl font-extrabold text-gray-900">{@org_count}</p>
             <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-0.5">
               Organisations
             </p>
