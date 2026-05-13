@@ -30,12 +30,15 @@
 
   <body class="bg-slate-50 h-screen flex flex-col font-sans antialiased overflow-hidden text-slate-900">
     
-    <!-- HEADER : Immobile (Glassmorphism) -->
-    <header :if={@current_user} class="flex-none sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm">
+<!-- HEADER : Immobile (Glassmorphism) -->
+    <header
+      :if={@current_user}
+      class="flex-none sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm"
+    >
       <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-10">
         <div class="flex items-center justify-between h-16">
           
-          <!-- Logo & Brand -->
+<!-- Logo & Brand -->
           <div class="flex items-center group">
             <a
               href="/"
@@ -52,7 +55,7 @@
             </a>
           </div>
           
-          <!-- Status de connexion -->
+<!-- Status de connexion -->
           <div class="flex items-center gap-3">
             <span class="hidden sm:inline-flex items-center gap-2 text-[11px] font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100 tracking-wide uppercase">
               <span class="relative flex h-2 w-2">
@@ -67,13 +70,16 @@
       </div>
     </header>
     
-    <!-- ZONE CENTRALE : La seule zone qui scrolle -->
-    <main class={[
-      "flex-1 overflow-y-auto w-full px-4 sm:px-6 lg:px-10 py-8 grid grid-cols-1 gap-8",
-      @current_user && "lg:grid-cols-[280px_1fr]" # N'applique la grille 2 colonnes que si connecté
-    ]}>
+<!-- ZONE CENTRALE : La seule zone qui scrolle -->
+    <main class={
+      [
+        "flex-1 overflow-y-auto w-full px-4 sm:px-6 lg:px-10 py-8 grid grid-cols-1 gap-8",
+        # N'applique la grille 2 colonnes que si connecté
+        @current_user && "lg:grid-cols-[280px_1fr]"
+      ]
+    }>
       
-      <!-- Sidebar de Navigation Moderne -->
+<!-- Sidebar de Navigation Moderne -->
       <aside :if={@current_user} class="sticky top-0 h-fit max-lg:static">
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 transition-shadow hover:shadow-md">
           <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-6">
@@ -122,7 +128,7 @@
             </li>
           </ul>
           
-          <!-- Petit Widget d'info Sidebar -->
+<!-- Petit Widget d'info Sidebar -->
           <div class="mt-8 p-4 bg-slate-50 rounded-xl border border-slate-100">
             <p class="text-[11px] text-slate-500 font-medium leading-relaxed italic">
               "Configurez vos alertes depuis la section monitoring."
@@ -131,18 +137,21 @@
         </div>
       </aside>
       
-        <!-- Contenu Dynamique -->
+<!-- Contenu Dynamique -->
       <div class="space-y-6">
         <.flash_group flash={@flash} />
         {@inner_content}
       </div>
     </main>
     
-    <!-- FOOTER : Immobile et Moderne -->
-    <footer :if={@current_user} class="flex-none bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+<!-- FOOTER : Immobile et Moderne -->
+    <footer
+      :if={@current_user}
+      class="flex-none bg-white/80 backdrop-blur-md border-t border-slate-200 py-4 shadow-[0_-4px_12px_rgba(0,0,0,0.03)]"
+    >
       <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-10 flex flex-col md:flex-row justify-between items-center gap-6">
         
-        <!-- Copyright & Version -->
+<!-- Copyright & Version -->
         <div class="flex items-center gap-4 text-sm font-medium text-slate-500">
           <span>© 2026 <span class="text-slate-900 font-bold tracking-tight">Tag-IP</span></span>
           <span class="text-slate-200 text-lg">|</span>
@@ -151,7 +160,7 @@
           </span>
         </div>
         
-        <!-- Status Pill Central -->
+<!-- Status Pill Central -->
         <div class="flex items-center gap-3 px-4 py-1.5 bg-slate-50 border border-slate-200 rounded-full shadow-inner">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75">
@@ -163,14 +172,12 @@
           </span>
         </div>
         
-        <!-- Liens secondaires -->
+<!-- Liens secondaires -->
         <div class="flex gap-8 text-xs font-bold text-slate-400 uppercase tracking-widest">
           <a href="#" class="hover:text-blue-600 transition-colors">Support</a>
           <a href="#" class="hover:text-blue-600 transition-colors">Docs API</a>
         </div>
       </div>
     </footer>
-
-    
   </body>
 </html>

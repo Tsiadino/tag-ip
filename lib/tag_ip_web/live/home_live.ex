@@ -19,7 +19,7 @@ defmodule TagIpWeb.HomeLive do
   end
 
   # --- SYNCHRONISATION TEMPS RÉEL ---
-  
+
   @impl true
   def handle_info({:org_created, _name}, socket) do
     # On incrémente le compteur actuel dans le socket sans recharger la DB

@@ -7,27 +7,30 @@ defmodule TagIpWeb.MonitoringLive do
 
     # 1. Récupération des organisations
     organizations = TagIp.Accounts.Organization |> Ash.read!()
-    
+
     # 2. Récupération DYNAMIQUE (Depuis le CSV importé en DB)
-    event_types = 
-      TagIp.Events.EventDefinition 
-      |> Ash.read!() 
+    event_types =
+      TagIp.Events.EventDefinition
+      |> Ash.read!()
       |> Enum.map(& &1.name)
-      |> Enum.uniq() # Supprime les noms identiques
+      # Supprime les noms identiques
+      |> Enum.uniq()
       |> Enum.sort()
 
     # 3. Chargement de l'historique
-    alert_logs = 
+    alert_logs =
       TagIp.Events.AlertLog
       |> Ash.Query.sort(timestamp: :desc)
       |> Ash.Query.load([:organization])
       |> Ash.read!()
 
     # 4. Chargement de l'Audit Trail
-    audit_logs = 
-      TagIp.Events.AuditLog 
-      |> Ash.Query.sort(inserted_at: :desc) # Plus récent en premier
-      |> Ash.Query.limit(10)               # On affiche les 10 derniers
+    audit_logs =
+      TagIp.Events.AuditLog
+      # Plus récent en premier
+      |> Ash.Query.sort(inserted_at: :desc)
+      # On affiche les 10 derniers
+      |> Ash.Query.limit(10)
       |> Ash.read!()
 
     monitoring_config = %{
@@ -37,16 +40,16 @@ defmodule TagIpWeb.MonitoringLive do
       logs_enabled: true
     }
 
-    {:ok, 
-      assign(socket, 
-        organizations: organizations,
-        event_types: event_types,
-        selected_org_id: (List.first(organizations) || %{id: nil}).id,
-        selected_event: List.first(event_types) || "Aucun événement disponible",
-        alert_logs: alert_logs, 
-        audit_logs: audit_logs, 
-        monitoring_config: monitoring_config
-      )}
+    {:ok,
+     assign(socket,
+       organizations: organizations,
+       event_types: event_types,
+       selected_org_id: (List.first(organizations) || %{id: nil}).id,
+       selected_event: List.first(event_types) || "Aucun événement disponible",
+       alert_logs: alert_logs,
+       audit_logs: audit_logs,
+       monitoring_config: monitoring_config
+     )}
   end
 
   @impl true
@@ -54,19 +57,20 @@ defmodule TagIpWeb.MonitoringLive do
     # On recharge l'alerte pour s'assurer que l'organisation est présente (évite le crash KeyError)
     alert_loaded = Ash.load!(alert, [:organization])
 
-    {:noreply, 
-     socket 
+    {:noreply,
+     socket
      |> assign(alert_logs: [alert_loaded | socket.assigns.alert_logs])
-     |> put_flash(:info, "Nouvelle alerte reçue : #{alert_loaded.event}")}  
+     |> put_flash(:info, "Nouvelle alerte reçue : #{alert_loaded.event}")}
   end
 
   # Cette fonction gère le changement en temps réel des sélections (phx-change)
   @impl true
   def handle_event("validate_config", %{"config" => params}, socket) do
-    {:noreply, assign(socket, 
-      selected_org_id: params["organization_id"],
-      selected_event: params["event_name"]
-    )}
+    {:noreply,
+     assign(socket,
+       selected_org_id: params["organization_id"],
+       selected_event: params["event_name"]
+     )}
   end
 
   @impl true
@@ -84,40 +88,42 @@ defmodule TagIpWeb.MonitoringLive do
       action: "Modification Config",
       event: "Nouvelle config sauvegardée (Polling: #{params["polling_interval"]}s)"
     }
-    
+
     # Note le ! après create. C'est crucial pour le debugging.
-    TagIp.Events.AuditLog 
-    |> Ash.Changeset.for_create(:create, audit_params) 
-    |> Ash.create!() 
+    TagIp.Events.AuditLog
+    |> Ash.Changeset.for_create(:create, audit_params)
+    |> Ash.create!()
 
     # On recharge les logs d'audit APRES l'insertion réussie
-    updated_audit_logs = 
-      TagIp.Events.AuditLog 
-      |> Ash.Query.sort(inserted_at: :desc) 
+    updated_audit_logs =
+      TagIp.Events.AuditLog
+      |> Ash.Query.sort(inserted_at: :desc)
       |> Ash.Query.limit(10)
       |> Ash.read!()
 
-    {:noreply, 
-      socket 
-      |> assign(monitoring_config: new_config, audit_logs: updated_audit_logs)
-      |> assign(selected_org_id: params["organization_id"])
-      |> assign(selected_event: params["event_name"])
-      |> put_flash(:info, "Configuration mise à jour et auditée avec succès")}
+    {:noreply,
+     socket
+     |> assign(monitoring_config: new_config, audit_logs: updated_audit_logs)
+     |> assign(selected_org_id: params["organization_id"])
+     |> assign(selected_event: params["event_name"])
+     |> put_flash(:info, "Configuration mise à jour et auditée avec succès")}
   end
 
   @impl true
   def handle_event("test_webhook", _params, socket) do
     webhook_url = socket.assigns.monitoring_config.webhook_url
-    
+
     alert_params = %{
       event: socket.assigns.selected_event,
-      organization_id: socket.assigns.selected_org_id, 
+      organization_id: socket.assigns.selected_org_id,
       status: "sent",
       timestamp: DateTime.utc_now() |> DateTime.truncate(:second)
     }
 
     # 1. On crée l'alerte
-    case TagIp.Events.AlertLog |> Ash.Changeset.for_create(:create, alert_params) |> Ash.create() do
+    case TagIp.Events.AlertLog
+         |> Ash.Changeset.for_create(:create, alert_params)
+         |> Ash.create() do
       {:ok, new_alert} ->
         # Notifications asynchrones
         spawn(fn -> Req.post(webhook_url, json: alert_params) end)
@@ -129,15 +135,17 @@ defmodule TagIpWeb.MonitoringLive do
           action: "Test Webhook",
           event: "Alerte test envoyée : #{alert_params.event}"
         }
+
         TagIp.Events.AuditLog |> Ash.Changeset.for_create(:create, audit_params) |> Ash.create()
 
         # 3. On recharge les audits pour l'interface
-        updated_audit_logs = TagIp.Events.AuditLog |> Ash.Query.sort(inserted_at: :desc) |> Ash.read!()
+        updated_audit_logs =
+          TagIp.Events.AuditLog |> Ash.Query.sort(inserted_at: :desc) |> Ash.read!()
 
-        {:noreply, 
-          socket 
-          |> assign(audit_logs: updated_audit_logs)
-          |> put_flash(:info, "Signal envoyé et audité pour #{alert_params.event} !")}
+        {:noreply,
+         socket
+         |> assign(audit_logs: updated_audit_logs)
+         |> put_flash(:info, "Signal envoyé et audité pour #{alert_params.event} !")}
 
       {:error, _} ->
         {:noreply, put_flash(socket, :error, "Erreur d'enregistrement PostgreSQL")}
@@ -150,16 +158,22 @@ defmodule TagIpWeb.MonitoringLive do
     <section class="space-y-6">
       <div class="fixed top-5 right-5 z-50 flex flex-col gap-2 w-72">
         <%= if flash = Phoenix.Flash.get(@flash, :info) do %>
-          <div class="flex items-center gap-3 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 rounded shadow-lg animate-bounce-in" role="alert">
+          <div
+            class="flex items-center gap-3 p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 rounded shadow-lg animate-bounce-in"
+            role="alert"
+          >
             <.icon name="hero-check-circle" class="size-5 text-emerald-500" />
-            <p class="text-sm font-bold"><%= flash %></p>
+            <p class="text-sm font-bold">{flash}</p>
           </div>
         <% end %>
 
         <%= if flash = Phoenix.Flash.get(@flash, :error) do %>
-          <div class="flex items-center gap-3 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 rounded shadow-lg" role="alert">
+          <div
+            class="flex items-center gap-3 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 rounded shadow-lg"
+            role="alert"
+          >
             <.icon name="hero-exclamation-triangle" class="size-5 text-red-500" />
-            <p class="text-sm font-bold"><%= flash %></p>
+            <p class="text-sm font-bold">{flash}</p>
           </div>
         <% end %>
       </div>
@@ -184,11 +198,15 @@ defmodule TagIpWeb.MonitoringLive do
         <div class="lg:col-span-3 bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-fade-in-up">
           <h2 class="text-base font-bold text-gray-900 mb-5">Configuration & Test</h2>
           <form phx-submit="update_config" phx-change="validate_config" class="space-y-4">
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1.5">Organisation à tester</label>
-                <select name="config[organization_id]" class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 text-sm">
+                <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                  Organisation à tester
+                </label>
+                <select
+                  name="config[organization_id]"
+                  class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 text-sm"
+                >
                   <%= for org <- @organizations do %>
                     <option value={org.id} selected={org.id == @selected_org_id}>{org.name}</option>
                   <% end %>
@@ -196,37 +214,55 @@ defmodule TagIpWeb.MonitoringLive do
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1.5">Type d'événement</label>
+                <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                  Type d'événement
+                </label>
                 <div class="relative">
-                  <select 
-                    name="config[event_name]" 
+                  <select
+                    name="config[event_name]"
                     class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 text-sm"
                   >
                     <%= for type <- @event_types do %>
-                      <option value={type} selected={type == @selected_event}><%= type %></option>
+                      <option value={type} selected={type == @selected_event}>{type}</option>
                     <% end %>
                   </select>
                 </div>
               </div>
-
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1.5">Intervalle (s)</label>
-                <input type="number" name="config[polling_interval]" value={@monitoring_config.polling_interval} class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 text-sm" />
+                <input
+                  type="number"
+                  name="config[polling_interval]"
+                  value={@monitoring_config.polling_interval}
+                  class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 text-sm"
+                />
               </div>
               <div class="md:col-span-2">
                 <label class="block text-xs font-semibold text-gray-600 mb-1.5">URL Webhook</label>
-                <input type="url" name="config[webhook_url]" value={@monitoring_config.webhook_url} class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 text-sm" />
+                <input
+                  type="url"
+                  name="config[webhook_url]"
+                  value={@monitoring_config.webhook_url}
+                  class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 text-sm"
+                />
               </div>
             </div>
 
             <div class="flex flex-wrap gap-3 pt-2">
-              <button type="submit" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm">
+              <button
+                type="submit"
+                class="bg-blue-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm"
+              >
                 <.icon name="hero-check" class="size-4" /> Sauvegarder config
               </button>
-              <button type="button" phx-click="test_webhook" class="bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg font-semibold text-sm">
+              <button
+                type="button"
+                phx-click="test_webhook"
+                class="bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg font-semibold text-sm"
+              >
                 <.icon name="hero-paper-airplane" class="size-4" /> Envoyer Alerte Test
               </button>
             </div>
@@ -291,7 +327,7 @@ defmodule TagIpWeb.MonitoringLive do
                   </td>
                   <td class="px-5 py-3.5 text-gray-800 font-medium">{log.event}</td>
                   <td class="px-5 py-3.5 text-gray-500 hidden sm:table-cell">
-                    <%= if log.organization, do: log.organization.name, else: "N/A" %>
+                    {if log.organization, do: log.organization.name, else: "N/A"}
                   </td>
                   <td class="px-5 py-3.5">
                     <span class={[
@@ -334,7 +370,6 @@ defmodule TagIpWeb.MonitoringLive do
             <tbody class="divide-y divide-gray-100">
               <%= for log <- @audit_logs do %>
                 <tr class="hover:bg-gray-50 transition-colors duration-150">
-                  
                   <td class="px-5 py-3.5 text-gray-500 font-mono text-xs">
                     {Calendar.strftime(log.inserted_at, "%H:%M:%S")}
                   </td>

@@ -9,7 +9,8 @@ import Config
 
 config :tag_ip,
   ecto_repos: [TagIp.Repo],
-  ash_domains: [TagIp.Domain, TagIp.Accounts], # Mets les deux ici
+  # Mets les deux ici
+  ash_domains: [TagIp.Domain, TagIp.Accounts],
   generators: [timestamp_type: :utc_datetime]
 
 config :tag_ip, ash_domains: [TagIp.Domain, TagIp.Accounts]

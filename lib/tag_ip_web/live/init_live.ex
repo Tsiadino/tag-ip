@@ -24,13 +24,15 @@ defmodule TagIpWeb.InitLive do
     name = "Organization #{new_id}"
     slug = "org_#{new_id}"
     now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
-    
-    Repo.insert_all("organizations", [[
-      name: name, 
-      slug: slug, 
-      inserted_at: now, 
-      updated_at: now
-    ]])
+
+    Repo.insert_all("organizations", [
+      [
+        name: name,
+        slug: slug,
+        inserted_at: now,
+        updated_at: now
+      ]
+    ])
 
     # 2. ENVOI DU SIGNAL (C'est ça qui fait la magie)
     Phoenix.PubSub.broadcast(
@@ -38,11 +40,11 @@ defmodule TagIpWeb.InitLive do
       "global_events",
       {:org_created, name}
     )
-    
-    {:noreply, 
-    socket 
-    |> put_flash(:info, "#{name} créée !")
-    |> refresh_all_data()}
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "#{name} créée !")
+     |> refresh_all_data()}
   end
 
   @impl true
@@ -55,8 +57,8 @@ defmodule TagIpWeb.InitLive do
       {:global_reset, true}
     )
 
-    {:noreply, 
-     socket 
+    {:noreply,
+     socket
      |> put_flash(:info, "Tous les événements ont été activés")
      |> refresh_all_data()}
   end
@@ -71,8 +73,8 @@ defmodule TagIpWeb.InitLive do
       {:global_reset, false}
     )
 
-    {:noreply, 
-     socket 
+    {:noreply,
+     socket
      |> put_flash(:info, "Tous les événements ont été désactivés")
      |> refresh_all_data()}
   end
@@ -81,10 +83,10 @@ defmodule TagIpWeb.InitLive do
   defp refresh_all_data(socket) do
     total = Repo.aggregate(from(e in "event_definitions"), :count, :id)
     active = Repo.aggregate(from(e in "event_definitions", where: e.active == true), :count, :id)
-    
+
     # On récupère les noms de toutes les organisations en DB
     orgs = Repo.all(from(o in "organizations", select: o.name, order_by: [asc: o.id]))
-    
+
     assign(socket,
       total_events: total,
       active_events: active,
@@ -117,15 +119,21 @@ defmodule TagIpWeb.InitLive do
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 animate-fade-in-up delay-1">
         <div class="bg-white rounded-lg p-4 text-center border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md">
           <p class="text-2xl font-extrabold text-blue-600">{@total_events}</p>
-          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-0.5">Événements importés</p>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-0.5">
+            Événements importés
+          </p>
         </div>
         <div class="bg-white rounded-lg p-4 text-center border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md">
           <p class="text-2xl font-extrabold text-blue-600">{@active_events}</p>
-          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-0.5">Événements actifs</p>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-0.5">
+            Événements actifs
+          </p>
         </div>
         <div class="bg-white rounded-lg p-4 text-center border border-gray-200 shadow-sm transition-all duration-200 hover:shadow-md">
           <p class="text-2xl font-extrabold text-gray-900">{length(@organizations)}</p>
-          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-0.5">Organisations</p>
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-0.5">
+            Organisations
+          </p>
         </div>
       </div>
 
@@ -133,10 +141,16 @@ defmodule TagIpWeb.InitLive do
       <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-fade-in-up delay-2">
         <h2 class="text-base font-bold text-gray-900 mb-4">Actions globales</h2>
         <div class="flex flex-wrap gap-3">
-          <button phx-click="activate_all" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 text-sm shadow-sm">
+          <button
+            phx-click="activate_all"
+            class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 text-sm shadow-sm"
+          >
             <.icon name="hero-check-circle" class="size-4" /> Activer tous les événements
           </button>
-          <button phx-click="deactivate_all" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-all duration-200 text-sm">
+          <button
+            phx-click="deactivate_all"
+            class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-all duration-200 text-sm"
+          >
             <.icon name="hero-x-circle" class="size-4" /> Désactiver tous les événements
           </button>
         </div>
@@ -146,7 +160,7 @@ defmodule TagIpWeb.InitLive do
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 animate-fade-in-up delay-3">
         <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
           <h2 class="text-base font-bold text-gray-900">Organisations configurées</h2>
-          <button 
+          <button
             phx-click="add_org"
             class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 font-bold rounded-lg transition-all text-xs border border-blue-200"
           >
@@ -168,10 +182,16 @@ defmodule TagIpWeb.InitLive do
 
       <%!-- Footer Navigation --%>
       <div class="flex flex-wrap items-center justify-between gap-4 pt-2 animate-fade-in-up delay-5">
-        <.link navigate="/dashboard" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 bg-white hover:bg-blue-50 rounded-lg border border-gray-300 hover:border-blue-400 transition-all duration-200">
+        <.link
+          navigate="/dashboard"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 bg-white hover:bg-blue-50 rounded-lg border border-gray-300 hover:border-blue-400 transition-all duration-200"
+        >
           <.icon name="hero-arrow-left" class="size-4" /> Dashboard
         </.link>
-        <.link navigate="/monitoring" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all duration-200">
+        <.link
+          navigate="/monitoring"
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all duration-200"
+        >
           Monitoring <.icon name="hero-arrow-right" class="size-4" />
         </.link>
       </div>

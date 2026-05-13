@@ -17,15 +17,15 @@ defmodule TagIp.Events.EventDefinition do
 
     # On définit l'attribut une seule fois avec toutes ses contraintes
     attribute :category, :atom do
-      allow_nil? false
-      constraints [unsafe_to_atom?: true]
+      allow_nil?(false)
+      constraints(unsafe_to_atom?: true)
     end
 
     # Il est prudent de faire pareil pour :class si tes données CSV sont variées
     attribute :class, :atom do
-      allow_nil? false
-      default :unknown
-      constraints [unsafe_to_atom?: true]
+      allow_nil?(false)
+      default(:unknown)
+      constraints(unsafe_to_atom?: true)
     end
 
     attribute(:level, :integer, allow_nil?: false, constraints: [min: 1])

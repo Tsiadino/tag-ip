@@ -5,7 +5,7 @@ defmodule TagIp.Accounts.Token do
     extensions: [AshAuthentication.TokenResource]
 
   postgres do
-    table "tokens"
-    repo TagIp.Repo
+    table("tokens")
+    repo(TagIp.Repo)
   end
 end

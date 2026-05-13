@@ -51,19 +51,20 @@ defmodule TagIpWeb.GlobalEventsLive do
 
     # 4. Broadcast pour le Dashboard
     Phoenix.PubSub.broadcast(
-      TagIp.PubSub, 
-      "global_events", 
+      TagIp.PubSub,
+      "global_events",
       {:global_event_toggled, id, new_status}
     )
 
     # 5. Mise à jour de l'interface locale
-    updated_events = Enum.map(events, fn event ->
-      if to_string(event.id) == to_string(id) do
-        %{event | active: new_status}
-      else
-        event
-      end
-    end)
+    updated_events =
+      Enum.map(events, fn event ->
+        if to_string(event.id) == to_string(id) do
+          %{event | active: new_status}
+        else
+          event
+        end
+      end)
 
     {:noreply, assign(socket, events: updated_events)}
   end

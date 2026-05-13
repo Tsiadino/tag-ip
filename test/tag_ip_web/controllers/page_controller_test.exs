@@ -1,8 +1,8 @@
 defmodule TagIpWeb.PageControllerTest do
   use TagIpWeb.ConnCase
 
-  test "GET /", %{conn: conn} do
+  test "GET / redirects to login when unauthenticated", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "TAG-IP"
+    assert redirected_to(conn) == "/login"
   end
 end

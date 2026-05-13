@@ -30,30 +30,21 @@ defmodule TagIpWeb.Router do
 
   # --- ROUTES PROTÉGÉES ---
   scope "/", TagIpWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser]
 
-    live "/", HomeLive, :index
-    live "/dashboard", DashboardLive, :index
-    live "/init", InitLive, :index
-    live "/global-events", GlobalEventsLive, :index
-    live "/org-events", OrgEventsLive, :index
-    live "/monitoring", MonitoringLive, :index
+    live_session :authenticated, on_mount: [{TagIpWeb.Auth, :ensure_authenticated}] do
+      live "/", HomeLive, :index
+      live "/dashboard", DashboardLive, :index
+      live "/init", InitLive, :index
+      live "/global-events", GlobalEventsLive, :index
+      live "/org-events", OrgEventsLive, :index
+      live "/monitoring", MonitoringLive, :index
+    end
   end
 
   defp load_current_user(conn, _opts) do
     user_id = get_session(conn, :user_id)
 
     assign(conn, :current_user, if(user_id, do: TagIp.Accounts.Auth.get_user(user_id), else: nil))
-  end
-
-  defp require_authenticated_user(conn, _opts) do
-    if conn.assigns[:current_user] do
-      conn
-    else
-      conn
-      |> put_flash(:error, "Veuillez vous connecter pour accéder à Tag-IP.")
-      |> redirect(to: "/login")
-      |> halt()
-    end
   end
 end

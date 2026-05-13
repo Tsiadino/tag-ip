@@ -23,21 +23,22 @@ defmodule TagIpWeb.OrgEventsLive do
         limit: 8
       )
       |> Repo.all()
-      |> Enum.map(fn event -> 
-        event 
+      |> Enum.map(fn event ->
+        event
         |> Map.put(:id, normalize_uuid(event.id))
-        |> Map.put(:enabled, event.active) 
+        |> Map.put(:enabled, event.active)
       end)
 
     # Chargement des organisations
-    organizations_list = Repo.all(from(o in "organizations", select: o.name, order_by: [asc: o.id]))
+    organizations_list =
+      Repo.all(from(o in "organizations", select: o.name, order_by: [asc: o.id]))
 
     {:ok,
-      assign(socket,
-        events: events,
-        organizations_list: organizations_list,
-        organization: List.first(organizations_list) || "Aucune organisation"
-      )}
+     assign(socket,
+       events: events,
+       organizations_list: organizations_list,
+       organization: List.first(organizations_list) || "Aucune organisation"
+     )}
   end
 
   # --- SYNCHRONISATION TEMPS RÉEL ---
@@ -49,10 +50,10 @@ defmodule TagIpWeb.OrgEventsLive do
 
   @impl true
   def handle_info({:global_reset, status}, socket) do
-    updated_events = Enum.map(socket.assigns.events, & %{&1 | enabled: status, active: status})
+    updated_events = Enum.map(socket.assigns.events, &%{&1 | enabled: status, active: status})
     {:noreply, assign(socket, events: updated_events)}
   end
-  
+
   @impl true
   def handle_info(_, socket), do: {:noreply, socket}
 
@@ -68,11 +69,18 @@ defmodule TagIpWeb.OrgEventsLive do
     from(e in "event_definitions", where: e.id == type(^binary_id, Ecto.UUID))
     |> Repo.update_all(set: [active: new_status])
 
-    Phoenix.PubSub.broadcast(TagIp.PubSub, "global_events", {:global_event_toggled, id, new_status})
+    Phoenix.PubSub.broadcast(
+      TagIp.PubSub,
+      "global_events",
+      {:global_event_toggled, id, new_status}
+    )
 
-    updated_events = Enum.map(events, fn event ->
-      if to_string(event.id) == to_string(id), do: %{event | enabled: new_status, active: new_status}, else: event
-    end)
+    updated_events =
+      Enum.map(events, fn event ->
+        if to_string(event.id) == to_string(id),
+          do: %{event | enabled: new_status, active: new_status},
+          else: event
+      end)
 
     {:noreply, assign(socket, events: updated_events)}
   end
@@ -108,7 +116,10 @@ defmodule TagIpWeb.OrgEventsLive do
                 <% end %>
               <% end %>
             </select>
-            <.icon name="hero-chevron-down" class="size-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+            <.icon
+              name="hero-chevron-down"
+              class="size-4 absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+            />
           </div>
         </div>
 
@@ -123,9 +134,15 @@ defmodule TagIpWeb.OrgEventsLive do
             <table class="w-full text-sm">
               <thead>
                 <tr class="bg-gray-50 border-b border-gray-200">
-                  <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Événement</th>
-                  <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Visible</th>
-                  <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Action</th>
+                  <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Événement
+                  </th>
+                  <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Visible
+                  </th>
+                  <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100">
@@ -138,17 +155,30 @@ defmodule TagIpWeb.OrgEventsLive do
                     <td class="px-5 py-3.5">
                       <span class={[
                         "inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-semibold rounded-full",
-                        if(event.enabled, do: "text-blue-600 bg-blue-50 border border-blue-200", else: "text-gray-500 bg-gray-50 border border-gray-200")
+                        if(event.enabled,
+                          do: "text-blue-600 bg-blue-50 border border-blue-200",
+                          else: "text-gray-500 bg-gray-50 border border-gray-200"
+                        )
                       ]}>
-                        <span class={["size-1.5 rounded-full", if(event.enabled, do: "bg-blue-600", else: "bg-gray-400")]} />
+                        <span class={[
+                          "size-1.5 rounded-full",
+                          if(event.enabled, do: "bg-blue-600", else: "bg-gray-400")
+                        ]} />
                         {if event.enabled, do: "Oui", else: "Non"}
                       </span>
                     </td>
                     <td class="px-5 py-3.5">
-                      <button phx-click="toggle-enabled" phx-value-id={event.id} class={[
-                        "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200",
-                        if(event.enabled, do: "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-300", else: "bg-blue-600 text-white hover:bg-blue-700 shadow-sm")
-                      ]}>
+                      <button
+                        phx-click="toggle-enabled"
+                        phx-value-id={event.id}
+                        class={[
+                          "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200",
+                          if(event.enabled,
+                            do: "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-300",
+                            else: "bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
+                          )
+                        ]}
+                      >
                         {if event.enabled, do: "Désactiver", else: "Activer"}
                       </button>
                     </td>
@@ -169,5 +199,6 @@ defmodule TagIpWeb.OrgEventsLive do
       :error -> id
     end
   end
+
   defp normalize_uuid(id), do: to_string(id)
 end

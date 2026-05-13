@@ -93,7 +93,7 @@ defmodule TagIpWeb.DashboardLive do
   @impl true
   def handle_info({:global_reset, active}, socket) do
     label = if active, do: "activés", else: "désactivés"
-    
+
     alert = %{
       id: System.unique_integer([:positive]),
       text: "ALERTE SYSTÈME : Tous les événements ont été #{label} via l'initialisation.",
@@ -102,14 +102,15 @@ defmodule TagIpWeb.DashboardLive do
     }
 
     # On remet à jour tous les événements localement pour que l'UI change aussi
-    events = Enum.map(socket.assigns.events, fn event ->
-      %{event | active: active, enabled: active}
-    end)
+    events =
+      Enum.map(socket.assigns.events, fn event ->
+        %{event | active: active, enabled: active}
+      end)
 
     {:noreply,
-    socket
-    |> assign(:events, events)
-    |> assign(:alerts, [alert | socket.assigns.alerts])}
+     socket
+     |> assign(:events, events)
+     |> assign(:alerts, [alert | socket.assigns.alerts])}
   end
 
   @impl true

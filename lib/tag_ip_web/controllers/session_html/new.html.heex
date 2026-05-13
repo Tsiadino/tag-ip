@@ -2,12 +2,14 @@
   <div class="mb-8 text-center">
     <p class="text-sm uppercase tracking-[0.4em] text-slate-400">Connexion</p>
     <h1 class="mt-4 text-3xl font-semibold text-slate-900">Bienvenue sur Tag-IP</h1>
-    <p class="mt-2 text-sm text-slate-500">Entrez vos identifiants pour accéder à votre espace sécurisé.</p>
+    <p class="mt-2 text-sm text-slate-500">
+      Entrez vos identifiants pour accéder à votre espace sécurisé.
+    </p>
   </div>
 
   <%= if error = Phoenix.Flash.get(@flash, :error) do %>
     <div class="mb-6 rounded-2xl bg-red-50 border border-red-100 p-4 text-sm text-red-700">
-      <%= error %>
+      {error}
     </div>
   <% end %>
 
@@ -29,11 +31,21 @@
     />
 
     <div class="flex justify-between items-center text-xs uppercase tracking-[0.28em] text-slate-500">
-      <.link navigate="/reset-password" class="hover:text-blue-600 transition-colors">Mot de passe oublié ?</.link>
-      <.link navigate="/register" class="text-blue-600 font-bold hover:text-blue-800 transition-colors">Créer un compte</.link>
+      <.link navigate="/reset-password" class="hover:text-blue-600 transition-colors">
+        Mot de passe oublié ?
+      </.link>
+      <.link
+        navigate="/register"
+        class="text-blue-600 font-bold hover:text-blue-800 transition-colors"
+      >
+        Créer un compte
+      </.link>
     </div>
 
-    <button type="submit" class="w-full rounded-2xl bg-slate-900 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-white shadow-lg shadow-slate-900/10 transition hover:bg-slate-800">
+    <button
+      type="submit"
+      class="w-full rounded-2xl bg-slate-900 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-white shadow-lg shadow-slate-900/10 transition hover:bg-slate-800"
+    >
       Se connecter
     </button>
   </.form>

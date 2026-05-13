@@ -3,7 +3,8 @@ defmodule TagIp.Repo do
     otp_app: :tag_ip
 
   def installed_extensions do
-    ["uuid-ossp", "citext", "ash-functions"] # Ajout de ash-functions
+    # Ajout de ash-functions
+    ["uuid-ossp", "citext", "ash-functions"]
   end
 
   # Ajoute ceci pour préciser la version de ton Postgres sur Debian
