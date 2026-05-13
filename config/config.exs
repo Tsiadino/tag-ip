@@ -9,8 +9,13 @@ import Config
 
 config :tag_ip,
   ecto_repos: [TagIp.Repo],
-  ash_domains: [TagIp.Domain],
+  ash_domains: [TagIp.Domain, TagIp.Accounts], # Mets les deux ici
   generators: [timestamp_type: :utc_datetime]
+
+config :tag_ip, ash_domains: [TagIp.Domain, TagIp.Accounts]
+
+config :ash_authentication_phoenix,
+  auth_routes_prefix: "/auth"
 
 # Configure the endpoint
 config :tag_ip, TagIpWeb.Endpoint,

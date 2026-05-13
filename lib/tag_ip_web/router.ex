@@ -8,14 +8,29 @@ defmodule TagIpWeb.Router do
     plug :put_root_layout, html: {TagIpWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :load_current_user
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  pipeline :auth_layout do
+    plug :put_root_layout, html: {TagIpWeb.Layouts, :auth_root}
   end
 
   scope "/", TagIpWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth_layout]
+
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
+    delete "/logout", SessionController, :delete
+
+    get "/register", RegistrationController, :new
+    post "/register", RegistrationController, :create
+
+    get "/reset-password", PasswordResetController, :new
+  end
+
+  # --- ROUTES PROTÉGÉES ---
+  scope "/", TagIpWeb do
+    pipe_through [:browser, :require_authenticated_user]
 
     live "/", HomeLive, :index
     live "/dashboard", DashboardLive, :index
@@ -25,25 +40,20 @@ defmodule TagIpWeb.Router do
     live "/monitoring", MonitoringLive, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", TagIpWeb do
-  #   pipe_through :api
-  # end
+  defp load_current_user(conn, _opts) do
+    user_id = get_session(conn, :user_id)
 
-  # Enable LiveDashboard and Swoosh mailbox preview in development
-  if Application.compile_env(:tag_ip, :dev_routes) do
-    # If you want to use the LiveDashboard in production, you should put
-    # it behind authentication and allow only admins to access it.
-    # If your application does not have an admins-only section yet,
-    # you can use Plug.BasicAuth to set up some basic authentication
-    # as long as you are also using SSL (which you should anyway).
-    import Phoenix.LiveDashboard.Router
+    assign(conn, :current_user, if(user_id, do: TagIp.Accounts.Auth.get_user(user_id), else: nil))
+  end
 
-    scope "/dev" do
-      pipe_through :browser
-
-      live_dashboard "/dashboard", metrics: TagIpWeb.Telemetry
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+  defp require_authenticated_user(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Veuillez vous connecter pour accéder à Tag-IP.")
+      |> redirect(to: "/login")
+      |> halt()
     end
   end
 end
