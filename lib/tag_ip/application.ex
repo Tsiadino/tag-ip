@@ -7,6 +7,9 @@ defmodule TagIp.Application do
 
   @impl true
   def start(_type, _args) do
+    # FORCE L'INJECTION DES DOMAINES DANS L'ENVIRONNEMENT D'ASH ADMIN AU DÉMARRAGE
+    Application.put_env(:ash_admin, :domains, [TagIp.Domain, TagIp.Accounts])
+
     children = [
       TagIpWeb.Telemetry,
       TagIp.Repo,

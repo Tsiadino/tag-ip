@@ -2,6 +2,23 @@ alias Ecto.UUID
 alias TagIp.Repo
 alias NimbleCSV.RFC4180, as: CSV
 
+# Create default super-admin user
+default_password = "tagip2024"
+
+%{
+  id: Ecto.UUID.dump!(UUID.generate()),
+  email: "fannie@gmail.com",
+  hashed_password: Bcrypt.hash_pwd_salt(default_password)
+}
+|> then(fn user ->
+  Repo.insert_all("users", [user],
+    on_conflict: :nothing,
+    conflict_target: :email
+  )
+end)
+
+IO.puts("Default user created: fannie@gmail.com / #{default_password}")
+
 # Create organizations
 organizations = [
   %{name: "Demo Corp", slug: "demo_corp"},

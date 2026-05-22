@@ -1,0 +1,135 @@
+<section class="space-y-6">
+  <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-fade-in-up">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="size-12 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm shrink-0">
+        <.icon name="hero-book-open" class="size-6 text-white" />
+      </div>
+      <div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+          Catalogue global des événements
+        </h1>
+        <p class="text-sm text-gray-500 mt-0.5">Activez ou désactivez des définitions globales</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 animate-fade-in-up delay-1">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="bg-gray-50 border-b border-gray-200">
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Code
+            </th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Nom
+            </th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden md:table-cell">
+              Description
+            </th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+              Moniteur
+            </th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Actif
+            </th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Action
+            </th>
+            <th class="px-5 py-3.5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Configurer
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <%= for event <- @events do %>
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+              <td class="px-5 py-3.5 text-gray-900 font-mono text-xs font-semibold">
+                {event.code}
+              </td>
+              <td class="px-5 py-3.5 text-gray-800 font-medium">{event.name}</td>
+              <td class="px-5 py-3.5 text-gray-500 hidden md:table-cell max-w-xs truncate">
+                {event.definition || "—"}
+              </td>
+              <td class="px-5 py-3.5 text-gray-500 hidden sm:table-cell">
+                <span class="px-2 py-0.5 text-xs font-medium rounded bg-gray-100 text-gray-600">
+                  {event.monitor_type}
+                </span>
+              </td>
+              <td class="px-5 py-3.5">
+                <span class={[
+                  "inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-semibold rounded-full",
+                  if(event.active,
+                    do: "text-blue-600 bg-blue-50 border border-blue-200",
+                    else: "text-gray-500 bg-gray-50 border border-gray-200"
+                  )
+                ]}>
+                  <span class={[
+                    "size-1.5 rounded-full",
+                    if(event.active, do: "bg-blue-600", else: "bg-gray-400")
+                  ]} />
+                  {if event.active, do: "Oui", else: "Non"}
+                </span>
+              </td>
+              <td class="px-5 py-3.5">
+                <button
+                  phx-click="toggle-active"
+                  phx-value-id={event.id}
+                  class={[
+                    "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200",
+                    if(event.active,
+                      do: "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-300",
+                      else: "bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
+                    )
+                  ]}
+                >
+                  {if event.active, do: "Désactiver", else: "Activer"}
+                </button>
+              </td>
+              <td class="px-5 py-3.5">
+                <.link
+                  navigate={"/global-events/#{event.id}/edit"}
+                  class="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 border border-gray-300 hover:border-blue-400 transition-all duration-200"
+                >
+                  <.icon name="hero-pencil" class="size-3.5 inline" /> Modifier
+                </.link>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <.link
+    navigate="/global-events/new"
+    class="block bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-fade-in-up delay-2 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+  >
+    <div class="flex items-start gap-4">
+      <div class="size-10 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm shrink-0">
+        <.icon name="hero-plus" class="size-5 text-white" />
+      </div>
+      <div>
+        <h2 class="text-base font-bold text-gray-900 mb-1">Créer un nouvel événement</h2>
+        <p class="text-sm text-gray-500 leading-relaxed">
+          Ajoutez une nouvelle définition d'événement au catalogue global.
+        </p>
+      </div>
+    </div>
+  </.link>
+
+  <div class="flex flex-wrap items-center justify-between gap-4 pt-2 animate-fade-in-up delay-3">
+    <.link
+      navigate="/"
+      class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 bg-white hover:bg-blue-50 rounded-lg border border-gray-300 hover:border-blue-400 transition-all duration-200"
+    >
+      <.icon name="hero-arrow-left" class="size-4" /> Retour à l'accueil
+    </.link>
+    <.link
+      navigate="/org-events"
+      class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all duration-200"
+    >
+      Voir les configurations par organisation <.icon name="hero-arrow-right" class="size-4" />
+    </.link>
+  </div>
+</section>

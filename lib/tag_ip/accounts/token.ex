@@ -8,4 +8,8 @@ defmodule TagIp.Accounts.Token do
     table("tokens")
     repo(TagIp.Repo)
   end
+
+  actions do
+    defaults([:read, :destroy])
+  end
 end

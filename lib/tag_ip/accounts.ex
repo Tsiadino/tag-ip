@@ -1,9 +1,14 @@
 defmodule TagIp.Accounts do
-  use Ash.Domain
+  use Ash.Domain,
+    otp_app: :tag_ip,
+    extensions: [AshAdmin.Domain]
+
+  admin do
+    show?(true)
+  end
 
   resources do
     resource(TagIp.Accounts.User)
-    # Vérifie que cette ligne est bien là !
     resource(TagIp.Accounts.Token)
   end
 end

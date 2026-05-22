@@ -10,7 +10,8 @@ defmodule TagIp.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      compilers: [:phoenix_live_view] ++ Mix.compilers(),
+      # On retire [:phoenix_live_view] pour laisser le cycle standard d'Ash s'initialiser en premier
+      compilers: Mix.compilers(),
       listeners: [Phoenix.CodeReloader]
     ]
   end
@@ -40,6 +41,8 @@ defmodule TagIp.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ash_graphql, "~> 1.0"},
+      {:igniter, "~> 0.6", only: [:dev, :test]},
       {:phoenix, "~> 1.8.7"},
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13"},
@@ -47,11 +50,11 @@ defmodule TagIp.MixProject do
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.1.0"},
-      {:ash, "~> 3.4"},
+      {:ash, "~> 3.0"},
       {:ash_postgres, "~> 2.0"},
-      {:ash_phoenix, "~> 2.3"},
-      {:ash_authentication, "~> 4.1"},
-      {:ash_authentication_phoenix, "~> 2.1"},
+      {:ash_phoenix, "~> 2.0"},
+      {:ash_authentication, "~> 4.0"},
+      {:ash_authentication_phoenix, "~> 2.0"},
       {:ash_admin, "~> 1.0"},
       {:lazy_html, ">= 0.1.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},

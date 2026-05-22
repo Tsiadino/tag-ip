@@ -28,7 +28,7 @@
     </script>
   </head>
 
-  <body class="bg-slate-50 h-screen flex flex-col font-sans antialiased overflow-hidden text-slate-900">
+  <body class="bg-slate-50 min-h-screen flex flex-col font-sans antialiased text-slate-900">
     
 <!-- HEADER : Immobile (Glassmorphism) -->
     <header
@@ -73,67 +73,138 @@
 <!-- ZONE CENTRALE : La seule zone qui scrolle -->
     <main class={
       [
-        "flex-1 overflow-y-auto w-full px-4 sm:px-6 lg:px-10 py-8 grid grid-cols-1 gap-8",
+        "flex-1 w-full px-4 sm:px-6 lg:px-10 py-8 grid grid-cols-1 gap-8",
         # N'applique la grille 2 colonnes que si connecté
         @current_user && "lg:grid-cols-[280px_1fr]"
       ]
     }>
       
 <!-- Sidebar de Navigation Moderne -->
-      <aside :if={@current_user} class="sticky top-0 h-fit max-lg:static">
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 transition-shadow hover:shadow-md">
-          <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-6">
-            Menu Système
-          </h2>
-          <ul class="space-y-1.5">
-            <li>
-              <.link
-                navigate="/"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
-                </span>
-                Accueil
-              </.link>
-            </li>
-            <li>
-              <.link
-                navigate="/dashboard"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
-                </span>
-                Dashboard temps réel
-              </.link>
-            </li>
-            <li>
-              <.link
-                navigate="/init"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
-                </span>
-                Initialisation
-              </.link>
-            </li>
-            <li>
-              <.link
-                navigate="/monitoring"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
-              >
-                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-600 transition-colors">
-                </span>
-                Système d'alertes
-              </.link>
-            </li>
-          </ul>
+      <aside :if={@current_user} class="sticky top-16 h-fit max-lg:static">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 transition-shadow hover:shadow-md overflow-hidden">
           
-<!-- Petit Widget d'info Sidebar -->
-          <div class="mt-8 p-4 bg-slate-50 rounded-xl border border-slate-100">
-            <p class="text-[11px] text-slate-500 font-medium leading-relaxed italic">
-              "Configurez vos alertes depuis la section monitoring."
-            </p>
+          <!-- Profil / Branding -->
+          <div class="px-5 pt-5 pb-4 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+              <div class="size-9 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-sm shrink-0">
+                <.icon name="hero-squares-2x2" class="size-4 text-white" />
+              </div>
+              <div>
+                <p class="text-sm font-extrabold text-slate-900 tracking-tight">PI-Events</p>
+                <p class="text-[10px] font-medium text-slate-400 tracking-wide">Tableau de bord</p>
+              </div>
+            </div>
           </div>
+
+          <!-- Navigation -->
+          <div class="p-4 space-y-5">
+
+            <!-- Section : Événements -->
+            <div>
+              <p class="px-3 mb-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">
+                Événements
+              </p>
+              <ul class="space-y-0.5">
+                <li>
+                  <.link
+                    navigate="/"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 group"
+                  >
+                    <span class="flex size-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 items-center justify-center transition-colors duration-150">
+                      <.icon name="hero-home" class="size-3.5 text-slate-500 group-hover:text-blue-600 transition-colors duration-150" />
+                    </span>
+                    Accueil
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    navigate="/dashboard"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 group"
+                  >
+                    <span class="flex size-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 items-center justify-center transition-colors duration-150">
+                      <.icon name="hero-chart-bar" class="size-3.5 text-slate-500 group-hover:text-blue-600 transition-colors duration-150" />
+                    </span>
+                    Dashboard
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    navigate="/global-events"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 group"
+                  >
+                    <span class="flex size-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 items-center justify-center transition-colors duration-150">
+                      <.icon name="hero-globe-alt" class="size-3.5 text-slate-500 group-hover:text-blue-600 transition-colors duration-150" />
+                    </span>
+                    Catalogue global
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    navigate="/global-events/new"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 group"
+                  >
+                    <span class="flex size-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 items-center justify-center transition-colors duration-150">
+                      <.icon name="hero-plus-circle" class="size-3.5 text-slate-500 group-hover:text-blue-600 transition-colors duration-150" />
+                    </span>
+                    Nouvel événement
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    navigate="/org-events"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 group"
+                  >
+                    <span class="flex size-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 items-center justify-center transition-colors duration-150">
+                      <.icon name="hero-building-office" class="size-3.5 text-slate-500 group-hover:text-blue-600 transition-colors duration-150" />
+                    </span>
+                    Config. organisations
+                  </.link>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Section : Système -->
+            <div>
+              <p class="px-3 mb-2 text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">
+                Système
+              </p>
+              <ul class="space-y-0.5">
+                <li>
+                  <.link
+                    navigate="/monitoring"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 group"
+                  >
+                    <span class="flex size-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 items-center justify-center transition-colors duration-150">
+                      <.icon name="hero-bell-alert" class="size-3.5 text-slate-500 group-hover:text-blue-600 transition-colors duration-150" />
+                    </span>
+                    Système d'alertes
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    navigate="/init"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-150 group"
+                  >
+                    <span class="flex size-7 rounded-lg bg-slate-100 group-hover:bg-blue-100 items-center justify-center transition-colors duration-150">
+                      <.icon name="hero-rocket-launch" class="size-3.5 text-slate-500 group-hover:text-blue-600 transition-colors duration-150" />
+                    </span>
+                    Initialisation
+                  </.link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Widget d'info -->
+          <div class="mx-4 mb-4 p-3.5 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100/60">
+            <div class="flex items-start gap-2.5">
+              <.icon name="hero-light-bulb" class="size-4 text-blue-500 mt-0.5 shrink-0" />
+              <p class="text-[11px] text-blue-700/80 font-medium leading-relaxed">
+                Configurez vos alertes depuis la section monitoring.
+              </p>
+            </div>
+          </div>
+
         </div>
       </aside>
       

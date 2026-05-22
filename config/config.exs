@@ -4,17 +4,24 @@
 # This configuration file is loaded before any dependency and
 # is restricted to this project.
 
-# General application configuration
 import Config
 
+# 1. CONFIGURATION GÉNÉRALE DE L'APPLICATION (Très Important !)
 config :tag_ip,
   ecto_repos: [TagIp.Repo],
-  # Mets les deux ici
+  # <-- REPLACÉ ICI : indispensable pour Ash 3.0
   ash_domains: [TagIp.Domain, TagIp.Accounts],
   generators: [timestamp_type: :utc_datetime]
 
-config :tag_ip, ash_domains: [TagIp.Domain, TagIp.Accounts]
+# 2. CONFIGURATION D'ASH ADMIN
+config :ash_admin,
+  domains: [TagIp.Domain, TagIp.Accounts],
+  show_sensitive_data_on_relationship_selection?: true
 
+# Désactivation temporaire des policies pour éviter les blocages d'affichage
+config :ash_admin, :authorization, enabled?: false
+
+# 3. CONFIGURATION D'ASH AUTHENTICATION
 config :ash_authentication_phoenix,
   auth_routes_prefix: "/auth"
 
@@ -30,12 +37,6 @@ config :tag_ip, TagIpWeb.Endpoint,
   live_view: [signing_salt: "Jj5+dlIz"]
 
 # Configure the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
 config :tag_ip, TagIp.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)

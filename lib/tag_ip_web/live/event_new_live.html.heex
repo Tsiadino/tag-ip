@@ -1,0 +1,210 @@
+<section class="space-y-6">
+  <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 animate-fade-in-up">
+    <div class="flex items-center gap-4 mb-4">
+      <div class="size-12 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm shrink-0">
+        <.icon name="hero-plus-circle" class="size-6 text-white" />
+      </div>
+      <div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+          Nouvel événement
+        </h1>
+        <p class="text-sm text-gray-500 mt-0.5">
+          Créez une nouvelle définition d'événement dans le catalogue global
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 animate-fade-in-up delay-1">
+    <div class="p-6">
+      <.form for={@form} id="event-form" phx-change="preview" phx-submit="save" class="space-y-5">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <.input
+                field={@form[:code]}
+                type="text"
+                label="Code"
+                required
+                list="code-list"
+                class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+              />
+              <datalist id="code-list">
+                <option :for={code <- @codes} value={code} />
+              </datalist>
+              <.input
+                field={@form[:name]}
+                type="text"
+                label="Nom"
+                required
+                list="name-list"
+                class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+              />
+              <datalist id="name-list">
+                <option :for={name <- @names} value={name} />
+              </datalist>
+              <.input
+                field={@form[:level]}
+                type="number"
+                label="Niveau"
+                required
+                min="1"
+                class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+              />
+              <.input
+                field={@form[:monitor_type]}
+                type="text"
+                label="Type de moniteur"
+                required
+                list="monitor-type-list"
+                class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+              />
+              <datalist id="monitor-type-list">
+                <option :for={mt <- @monitor_types} value={mt} />
+              </datalist>
+            </div>
+
+            <.input
+              field={@form[:category]}
+              type="select"
+              label="Catégorie"
+              prompt="Sélectionner une catégorie"
+              options={[
+                {"Physique", "physical"},
+                {"Système", "system"},
+                {"Dérivé", "derived"}
+              ]}
+              class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+            />
+            <.input
+              field={@form[:class]}
+              type="text"
+              label="Classe"
+              list="class-list"
+              class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+            />
+            <datalist id="class-list">
+              <option :for={class <- @classes} value={class} />
+            </datalist>
+
+            <.input
+              field={@form[:level_group]}
+              type="text"
+              label="Groupe de niveau"
+              list="level-group-list"
+              class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+            />
+            <datalist id="level-group-list">
+              <option :for={lg <- @level_groups} value={lg} />
+            </datalist>
+
+            <.input
+              field={@form[:definition]}
+              type="textarea"
+              label="Définition"
+              list="definition-list"
+              class="w-full px-3.5 py-2.5 rounded-lg border-2 border-gray-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none text-sm font-medium text-gray-700"
+            />
+            <datalist id="definition-list">
+              <option :for={defn <- @definitions} value={defn} />
+            </datalist>
+
+            <.input
+              field={@form[:active]}
+              type="checkbox"
+              label="Actif"
+              class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+          </div>
+
+          <div class="space-y-5">
+            <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 sticky top-6">
+              <div class="flex items-center gap-2 mb-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                <.icon name="hero-eye" class="size-4" />
+                Aperçu
+              </div>
+              <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                  <div class="flex items-center gap-2 min-w-0">
+                    <span class="font-mono text-xs font-bold text-white bg-gray-800 px-2 py-0.5 rounded">
+                      {@preview["code"] || "CODE"}
+                    </span>
+                    <span class="font-semibold text-sm text-gray-900 truncate">
+                      {@preview["name"] || "Nom de l'événement"}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 shrink-0">
+                    <span class={[
+                      "text-xs font-bold px-2 py-0.5 rounded",
+                      @preview["level"] == "3" && "bg-red-100 text-red-700",
+                      @preview["level"] == "2" && "bg-orange-100 text-orange-700",
+                      @preview["level"] != "2" && @preview["level"] != "3" && "bg-green-100 text-green-700"
+                    ]}>
+                      Lv {@preview["level"] || "?"}
+                    </span>
+                    <span class={[
+                      "text-xs font-medium px-2 py-0.5 rounded",
+                      @preview["active"] == "true" && "bg-emerald-100 text-emerald-700",
+                      @preview["active"] != "true" && "bg-gray-100 text-gray-400"
+                    ]}>
+                      {@preview["active"] == "true" && "Actif" || "Inactif"}
+                    </span>
+                  </div>
+                </div>
+                <div class="px-4 py-3 space-y-2 border-b border-gray-100">
+                  <div class="flex items-center gap-2 text-xs">
+                    <span class={[
+                      "font-medium px-2 py-0.5 rounded",
+                      @preview["category"] == "physical" && "bg-blue-100 text-blue-700",
+                      @preview["category"] == "system" && "bg-purple-100 text-purple-700",
+                      @preview["category"] == "derived" && "bg-violet-100 text-violet-700",
+                      @preview["category"] not in ~w(physical system derived) && "bg-gray-100 text-gray-500"
+                    ]}>
+                      {@preview["category"] || "catégorie"}
+                    </span>
+                    <span class="text-gray-300">·</span>
+                    <span class="font-medium text-gray-500">
+                      {@preview["class"] || "classe"}
+                    </span>
+                    <span class="text-gray-300">·</span>
+                    <span class="font-mono text-gray-400">
+                      {@preview["monitor_type"] || "moniteur"}
+                    </span>
+                  </div>
+                  <div :if={@preview["level_group"] && @preview["level_group"] != ""} class="text-xs text-gray-400">
+                    Groupe : {@preview["level_group"]}
+                  </div>
+                </div>
+                <div :if={@preview["definition"] && @preview["definition"] != ""} class="px-4 py-3">
+                  <p class="text-sm text-gray-600 leading-relaxed">
+                    {@preview["definition"]}
+                  </p>
+                </div>
+                <div :if={!@preview["definition"] || @preview["definition"] == ""} class="px-4 py-3">
+                  <p class="text-sm text-gray-300 italic">
+                    Aucune définition
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 pt-4 border-t border-gray-100">
+          <button
+            type="submit"
+            class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 text-sm shadow-sm"
+          >
+            <.icon name="hero-check" class="size-4" /> Créer l'événement
+          </button>
+          <.link
+            navigate="/global-events"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all duration-200"
+          >
+            Annuler
+          </.link>
+        </div>
+      </.form>
+    </div>
+  </div>
+</section>
