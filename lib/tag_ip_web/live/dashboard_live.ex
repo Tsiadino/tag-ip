@@ -50,7 +50,7 @@ defmodule TagIpWeb.DashboardLive do
     org_count = length(orgs)
     total_configs = length(org_event_defs)
     enabled_configs = Enum.count(org_event_defs, & &1.enabled)
-    standalone_count = Enum.count(org_event_defs, & is_nil(&1.event_definition_id))
+    standalone_count = Enum.count(org_event_defs, &is_nil(&1.event_definition_id))
     with_rules_count = Enum.count(org_event_defs, & &1.occurrence_rule)
 
     stats = %{
@@ -90,7 +90,10 @@ defmodule TagIpWeb.DashboardLive do
   end
 
   defp load_orgs do
-    from(o in "organizations", select: %{id: o.id, name: o.name, slug: o.slug}, order_by: [asc: o.name])
+    from(o in "organizations",
+      select: %{id: o.id, name: o.name, slug: o.slug},
+      order_by: [asc: o.name]
+    )
     |> Repo.all()
     |> Enum.map(fn org -> %{org | id: normalize_uuid(org.id)} end)
   end
@@ -121,7 +124,13 @@ defmodule TagIpWeb.DashboardLive do
 
   defp load_audit_logs do
     from(al in "audit_logs",
-      select: %{id: al.id, user: al.user, action: al.action, event: al.event, inserted_at: al.inserted_at},
+      select: %{
+        id: al.id,
+        user: al.user,
+        action: al.action,
+        event: al.event,
+        inserted_at: al.inserted_at
+      },
       order_by: [desc: al.inserted_at],
       limit: 15
     )

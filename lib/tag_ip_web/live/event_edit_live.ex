@@ -87,6 +87,7 @@ defmodule TagIpWeb.EventEditLive do
         errors = extract_errors(error)
         message = build_error_message(errors, params)
         form = to_form(params, as: :event_definition, errors: errors)
+
         {:noreply,
          socket
          |> assign(form: form)
@@ -112,17 +113,26 @@ defmodule TagIpWeb.EventEditLive do
          |> push_navigate(to: ~p"/global-events")}
 
       {:error, error} ->
-        {:noreply, put_flash(socket, :error, "Erreur lors de la suppression : #{Exception.message(error)}")}
+        {:noreply,
+         put_flash(socket, :error, "Erreur lors de la suppression : #{Exception.message(error)}")}
     end
   end
 
   defp build_error_message(errors, params) do
     code = params["code"]
 
-    duplicate = Enum.find(errors, fn {field, msg} ->
-      String.contains?(String.downcase(msg), ["already", "unique", "existe", "contrainte", "duplicate"]) or
-        (field == "code" and String.contains?(String.downcase(msg), ["pris", "existe", "utilisé"]))
-    end)
+    duplicate =
+      Enum.find(errors, fn {field, msg} ->
+        String.contains?(String.downcase(msg), [
+          "already",
+          "unique",
+          "existe",
+          "contrainte",
+          "duplicate"
+        ]) or
+          (field == "code" and
+             String.contains?(String.downcase(msg), ["pris", "existe", "utilisé"]))
+      end)
 
     if duplicate do
       "❌ Le code « #{code} » existe déjà dans le catalogue global"

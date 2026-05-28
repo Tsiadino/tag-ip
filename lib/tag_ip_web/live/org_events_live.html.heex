@@ -6,7 +6,9 @@
           <.icon name="hero-building-office-2" class="size-6 text-white" />
         </div>
         <div>
-          <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Configuration Événements</h1>
+          <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">
+            Configuration Événements
+          </h1>
           <p class="text-sm text-slate-500 mt-0.5">
             Personnalisation des événements par organisation
           </p>
@@ -14,11 +16,10 @@
       </div>
       <div class="flex gap-2">
         <.link
-          navigate={"/init"}
+          navigate="/init"
           class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all"
         >
-          <.icon name="hero-rocket-launch" class="size-4" />
-          Initialiser
+          <.icon name="hero-rocket-launch" class="size-4" /> Initialiser
         </.link>
       </div>
     </div>
@@ -26,7 +27,9 @@
 
   <%= if @organizations != [] do %>
     <div class="bg-white rounded-xl p-5 shadow-sm border border-slate-200 animate-fade-in-up delay-1">
-      <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 block">Organisation</label>
+      <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 block">
+        Organisation
+      </label>
       <div class="relative max-w-sm">
         <select
           phx-change="select-org"
@@ -35,10 +38,15 @@
         >
           <option value="">Sélectionner une organisation</option>
           <%= for org <- @organizations do %>
-            <option value={org.id} selected={org.id == @selected_org_id}>{org.name} ({org.slug})</option>
+            <option value={org.id} selected={org.id == @selected_org_id}>
+              {org.name} ({org.slug})
+            </option>
           <% end %>
         </select>
-        <.icon name="hero-chevron-down" class="size-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+        <.icon
+          name="hero-chevron-down"
+          class="size-4 absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+        />
       </div>
     </div>
   <% end %>
@@ -53,27 +61,39 @@
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 animate-fade-in-up delay-2">
       <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm text-center">
         <p class="text-xl font-extrabold text-slate-900">{length(@org_event_defs)}</p>
-        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Total</p>
+        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+          Total
+        </p>
       </div>
       <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm text-center">
         <p class="text-xl font-extrabold text-emerald-600">{enabled_count}</p>
-        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Activés</p>
+        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+          Activés
+        </p>
       </div>
       <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm text-center">
         <p class="text-xl font-extrabold text-slate-400">{disabled_count}</p>
-        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Désactivés</p>
+        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+          Désactivés
+        </p>
       </div>
       <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm text-center">
         <p class="text-xl font-extrabold text-amber-600">{with_rules_count}</p>
-        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Avec Règles</p>
+        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+          Avec Règles
+        </p>
       </div>
       <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm text-center">
         <p class="text-xl font-extrabold text-sky-600">{standalone_count}</p>
-        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Standalone</p>
+        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+          Standalone
+        </p>
       </div>
       <div class="bg-white rounded-xl p-3.5 border border-slate-200 shadow-sm text-center">
         <p class="text-xl font-extrabold text-blue-600">{shadow_count}</p>
-        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Shadows</p>
+        <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">
+          Shadows
+        </p>
       </div>
     </div>
 
@@ -82,15 +102,33 @@
         <table class="w-full text-sm">
           <thead>
             <tr class="bg-slate-50 border-b border-slate-200">
-              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Code</th>
-              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Nom</th>
-              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden sm:table-cell">Type</th>
-              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">Catégorie</th>
-              <th class="px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Niveau</th>
-              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">Alerte</th>
-              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">Règle</th>
-              <th class="px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">Activé</th>
-              <th class="px-4 py-3.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">Actions</th>
+              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                Code
+              </th>
+              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                Nom
+              </th>
+              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden sm:table-cell">
+                Type
+              </th>
+              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">
+                Catégorie
+              </th>
+              <th class="px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">
+                Niveau
+              </th>
+              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">
+                Alerte
+              </th>
+              <th class="px-4 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">
+                Règle
+              </th>
+              <th class="px-4 py-3.5 text-center text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                Activé
+              </th>
+              <th class="px-4 py-3.5 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
@@ -102,19 +140,24 @@
                   </span>
                 </td>
                 <td class="px-4 py-3.5">
-                  <span class="font-semibold text-slate-900">{config.resolved_name || config.name}</span>
+                  <span class="font-semibold text-slate-900">
+                    {config.resolved_name || config.name}
+                  </span>
                 </td>
                 <td class="px-4 py-3.5 hidden sm:table-cell">
                   <span class={[
                     "inline-flex px-2 py-0.5 text-xs font-bold rounded",
-                    config.type == "standalone" && "bg-amber-50 text-amber-700 border border-amber-200",
+                    config.type == "standalone" &&
+                      "bg-amber-50 text-amber-700 border border-amber-200",
                     config.type == "shadow" && "bg-blue-50 text-blue-700 border border-blue-200"
                   ]}>
                     {config.type}
                   </span>
                 </td>
                 <td class="px-4 py-3.5 hidden md:table-cell">
-                  <span class="text-xs text-slate-500">{config.resolved_category || config.category || "—"}</span>
+                  <span class="text-xs text-slate-500">
+                    {config.resolved_category || config.category || "—"}
+                  </span>
                 </td>
                 <td class="px-4 py-3.5 text-center hidden lg:table-cell">
                   <span class="text-xs font-bold text-slate-500">
@@ -124,10 +167,14 @@
                 <td class="px-4 py-3.5 hidden md:table-cell">
                   <span class={[
                     "inline-flex px-2 py-0.5 text-xs font-semibold rounded",
-                    config.alert_mode == "both" && "bg-rose-50 text-rose-700 border border-rose-200",
-                    config.alert_mode == "alert" && "bg-amber-50 text-amber-700 border border-amber-200",
-                    config.alert_mode == "report" && "bg-violet-50 text-violet-700 border border-violet-200",
-                    config.alert_mode == "none" && "bg-slate-50 text-slate-500 border border-slate-200"
+                    config.alert_mode == "both" &&
+                      "bg-rose-50 text-rose-700 border border-rose-200",
+                    config.alert_mode == "alert" &&
+                      "bg-amber-50 text-amber-700 border border-amber-200",
+                    config.alert_mode == "report" &&
+                      "bg-violet-50 text-violet-700 border border-violet-200",
+                    config.alert_mode == "none" &&
+                      "bg-slate-50 text-slate-500 border border-slate-200"
                   ]}>
                     {config.alert_mode}
                   </span>
@@ -159,9 +206,12 @@
                 </td>
                 <td class="px-4 py-3.5 text-right">
                   <div class="inline-flex gap-1.5">
-                    <button class="px-3 py-1.5 text-xs font-bold text-slate-600 bg-white hover:bg-blue-50 hover:text-blue-600 rounded-lg border border-slate-300 hover:border-blue-400 transition-all">
-                      <.icon name="hero-cog-6-tooth" class="size-3 inline" /> Configurer
-                    </button>
+                    <.link
+                      navigate={"/org-events/#{config.id}/config"}
+                      class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-600 bg-white hover:bg-blue-50 hover:text-blue-600 rounded-lg border border-slate-300 hover:border-blue-400 transition-all"
+                    >
+                      <.icon name="hero-cog-6-tooth" class="size-3" /> Configurer
+                    </.link>
                   </div>
                 </td>
               </tr>
@@ -177,16 +227,17 @@
       <div class="size-16 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center mb-4">
         <.icon name="hero-inbox" class="size-8 text-slate-400" />
       </div>
-      <h3 class="text-base font-bold text-slate-600 mb-2">Aucune configuration pour cette organisation</h3>
+      <h3 class="text-base font-bold text-slate-600 mb-2">
+        Aucune configuration pour cette organisation
+      </h3>
       <p class="text-sm text-slate-400 mb-6 max-w-md mx-auto">
         Utilisez le bouton "Initialiser" pour créer les configurations à partir du catalogue global.
       </p>
       <.link
-        navigate={"/init"}
+        navigate="/init"
         class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all"
       >
-        <.icon name="hero-rocket-launch" class="size-4" />
-        Initialiser les événements
+        <.icon name="hero-rocket-launch" class="size-4" /> Initialiser les événements
       </.link>
     </div>
   <% end %>
@@ -198,14 +249,13 @@
       </div>
       <h3 class="text-base font-bold text-slate-600 mb-2">Aucune organisation</h3>
       <p class="text-sm text-slate-400 mb-6 max-w-md mx-auto">
-      Créez une organisation depuis la section Initialisation pour commencer.
+        Créez une organisation depuis la section Initialisation pour commencer.
       </p>
       <.link
-        navigate={"/init"}
+        navigate="/init"
         class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all"
       >
-        <.icon name="hero-rocket-launch" class="size-4" />
-        Aller à l'initialisation
+        <.icon name="hero-rocket-launch" class="size-4" /> Aller à l'initialisation
       </.link>
     </div>
   <% end %>

@@ -24,7 +24,7 @@ defmodule TagIpWeb.InitLive do
      socket
      |> assign(:selected_org_id, org_id)
      |> assign(:suggestions, suggestions)
-      |> assign(:selected_ids, suggestions |> Enum.filter(& &1.recommended) |> Enum.map(& &1.id))}
+     |> assign(:selected_ids, suggestions |> Enum.filter(& &1.recommended) |> Enum.map(& &1.id))}
   end
 
   @impl true
@@ -77,7 +77,8 @@ defmodule TagIpWeb.InitLive do
        |> put_flash(:info, "#{count} configuration(s) créée(s) avec succès !")
        |> refresh_all_data()}
     else
-      {:noreply, put_flash(socket, :error, "Sélectionnez une organisation et au moins un événement")}
+      {:noreply,
+       put_flash(socket, :error, "Sélectionnez une organisation et au moins un événement")}
     end
   end
 
@@ -149,7 +150,9 @@ defmodule TagIpWeb.InitLive do
   @impl true
   def handle_info({:event_deleted, _id}, socket), do: {:noreply, refresh_all_data(socket)}
   @impl true
-  def handle_info({:global_event_toggled, _id, _active}, socket), do: {:noreply, refresh_all_data(socket)}
+  def handle_info({:global_event_toggled, _id, _active}, socket),
+    do: {:noreply, refresh_all_data(socket)}
+
   @impl true
   def handle_info({:global_reset, _active}, socket), do: {:noreply, refresh_all_data(socket)}
   @impl true
@@ -162,16 +165,25 @@ defmodule TagIpWeb.InitLive do
     active = Repo.aggregate(from(e in "event_definitions", where: e.active == true), :count, :id)
 
     orgs =
-      from(o in "organizations", select: %{id: o.id, name: o.name, slug: o.slug}, order_by: [asc: o.name])
+      from(o in "organizations",
+        select: %{id: o.id, name: o.name, slug: o.slug},
+        order_by: [asc: o.name]
+      )
       |> Repo.all()
       |> Enum.map(fn org -> %{org | id: normalize_uuid(org.id)} end)
 
     events =
       from(e in "event_definitions",
         select: %{
-          id: e.id, code: e.code, name: e.name, category: e.category,
-          class: e.class, level: e.level, level_group: e.level_group,
-          monitor_type: e.monitor_type, active: e.active
+          id: e.id,
+          code: e.code,
+          name: e.name,
+          category: e.category,
+          class: e.class,
+          level: e.level,
+          level_group: e.level_group,
+          monitor_type: e.monitor_type,
+          active: e.active
         },
         order_by: [asc: e.code]
       )
@@ -206,9 +218,15 @@ defmodule TagIpWeb.InitLive do
     events =
       from(e in "event_definitions",
         select: %{
-          id: e.id, code: e.code, name: e.name, category: e.category,
-          class: e.class, level: e.level, level_group: e.level_group,
-          monitor_type: e.monitor_type, active: e.active
+          id: e.id,
+          code: e.code,
+          name: e.name,
+          category: e.category,
+          class: e.class,
+          level: e.level,
+          level_group: e.level_group,
+          monitor_type: e.monitor_type,
+          active: e.active
         },
         order_by: [asc: e.code]
       )

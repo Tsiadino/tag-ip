@@ -69,7 +69,8 @@ defmodule TagIpWeb.OrgEventsLive do
 
   @impl true
   def handle_info({:global_reset, _active}, socket) do
-    {:noreply, assign(socket, org_event_defs: load_org_event_defs(socket.assigns.selected_org_id))}
+    {:noreply,
+     assign(socket, org_event_defs: load_org_event_defs(socket.assigns.selected_org_id))}
   end
 
   @impl true
@@ -91,8 +92,15 @@ defmodule TagIpWeb.OrgEventsLive do
 
   defp load_all_global_events do
     from(e in "event_definitions",
-      select: %{id: e.id, code: e.code, name: e.name, category: e.category, level: e.level,
-                monitor_type: e.monitor_type, active: e.active},
+      select: %{
+        id: e.id,
+        code: e.code,
+        name: e.name,
+        category: e.category,
+        level: e.level,
+        monitor_type: e.monitor_type,
+        active: e.active
+      },
       order_by: e.code
     )
     |> Repo.all()

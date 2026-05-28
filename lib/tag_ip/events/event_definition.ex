@@ -44,8 +44,9 @@ defmodule TagIp.Events.EventDefinition do
     defaults([:read, :destroy])
 
     create :create do
-      primary? true
-      accept [
+      primary?(true)
+
+      accept([
         :code,
         :name,
         :definition,
@@ -55,12 +56,13 @@ defmodule TagIp.Events.EventDefinition do
         :level_group,
         :monitor_type,
         :active
-      ]
+      ])
     end
 
     update :update do
-      primary? true
-      accept [
+      primary?(true)
+
+      accept([
         :code,
         :name,
         :definition,
@@ -70,7 +72,7 @@ defmodule TagIp.Events.EventDefinition do
         :level_group,
         :monitor_type,
         :active
-      ]
+      ])
     end
   end
 end

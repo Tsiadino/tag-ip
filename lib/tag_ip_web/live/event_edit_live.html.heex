@@ -120,8 +120,7 @@
           <div class="space-y-5">
             <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 sticky top-6">
               <div class="flex items-center gap-2 mb-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                <.icon name="hero-eye" class="size-4" />
-                Aperçu
+                <.icon name="hero-eye" class="size-4" /> Aperçu
               </div>
               <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
                 <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
@@ -136,18 +135,24 @@
                   <div class="flex items-center gap-2 shrink-0">
                     <span class={[
                       "text-xs font-bold px-2 py-0.5 rounded",
-                      (@preview["level"] || @form[:level].value) == "3" && "bg-red-100 text-red-700",
-                      (@preview["level"] || @form[:level].value) == "2" && "bg-orange-100 text-orange-700",
-                      (@preview["level"] || @form[:level].value) not in ~w(2 3) && "bg-green-100 text-green-700"
+                      (@preview["level"] || @form[:level].value) == "3" &&
+                        "bg-red-100 text-red-700",
+                      (@preview["level"] || @form[:level].value) == "2" &&
+                        "bg-orange-100 text-orange-700",
+                      (@preview["level"] || @form[:level].value) not in ~w(2 3) &&
+                        "bg-green-100 text-green-700"
                     ]}>
                       Lv {@preview["level"] || @form[:level].value || "?"}
                     </span>
                     <span class={[
                       "text-xs font-medium px-2 py-0.5 rounded",
-                      (@preview["active"] || @form[:active].value) == "true" && "bg-emerald-100 text-emerald-700",
-                      (@preview["active"] || @form[:active].value) != "true" && "bg-gray-100 text-gray-400"
+                      (@preview["active"] || @form[:active].value) == "true" &&
+                        "bg-emerald-100 text-emerald-700",
+                      (@preview["active"] || @form[:active].value) != "true" &&
+                        "bg-gray-100 text-gray-400"
                     ]}>
-                      {(@preview["active"] || @form[:active].value) == "true" && "Actif" || "Inactif"}
+                      {((@preview["active"] || @form[:active].value) == "true" && "Actif") ||
+                        "Inactif"}
                     </span>
                   </div>
                 </div>
@@ -155,10 +160,14 @@
                   <div class="flex items-center gap-2 text-xs">
                     <span class={[
                       "font-medium px-2 py-0.5 rounded",
-                      (@preview["category"] || @form[:category].value) == "physical" && "bg-blue-100 text-blue-700",
-                      (@preview["category"] || @form[:category].value) == "system" && "bg-purple-100 text-purple-700",
-                      (@preview["category"] || @form[:category].value) == "derived" && "bg-violet-100 text-violet-700",
-                      (@preview["category"] || @form[:category].value) not in ~w(physical system derived) && "bg-gray-100 text-gray-500"
+                      (@preview["category"] || @form[:category].value) == "physical" &&
+                        "bg-blue-100 text-blue-700",
+                      (@preview["category"] || @form[:category].value) == "system" &&
+                        "bg-purple-100 text-purple-700",
+                      (@preview["category"] || @form[:category].value) == "derived" &&
+                        "bg-violet-100 text-violet-700",
+                      (@preview["category"] || @form[:category].value) not in ~w(physical system derived) &&
+                        "bg-gray-100 text-gray-500"
                     ]}>
                       {@preview["category"] || @form[:category].value || "catégorie"}
                     </span>
@@ -171,16 +180,34 @@
                       {@preview["monitor_type"] || @form[:monitor_type].value || "moniteur"}
                     </span>
                   </div>
-                  <div :if={(@preview["level_group"] || @form[:level_group].value) && (@preview["level_group"] || @form[:level_group].value) != ""} class="text-xs text-gray-400">
+                  <div
+                    :if={
+                      (@preview["level_group"] || @form[:level_group].value) &&
+                        (@preview["level_group"] || @form[:level_group].value) != ""
+                    }
+                    class="text-xs text-gray-400"
+                  >
                     Groupe : {@preview["level_group"] || @form[:level_group].value}
                   </div>
                 </div>
-                <div :if={(@preview["definition"] || @form[:definition].value) && (@preview["definition"] || @form[:definition].value) != ""} class="px-4 py-3">
+                <div
+                  :if={
+                    (@preview["definition"] || @form[:definition].value) &&
+                      (@preview["definition"] || @form[:definition].value) != ""
+                  }
+                  class="px-4 py-3"
+                >
                   <p class="text-sm text-gray-600 leading-relaxed">
                     {@preview["definition"] || @form[:definition].value}
                   </p>
                 </div>
-                <div :if={!(@preview["definition"] || @form[:definition].value) || (@preview["definition"] || @form[:definition].value) == ""} class="px-4 py-3">
+                <div
+                  :if={
+                    !(@preview["definition"] || @form[:definition].value) ||
+                      (@preview["definition"] || @form[:definition].value) == ""
+                  }
+                  class="px-4 py-3"
+                >
                   <p class="text-sm text-gray-300 italic">
                     Aucune définition
                   </p>
@@ -190,13 +217,12 @@
 
             <div :if={@org_count > 0} class="bg-amber-50 rounded-xl border border-amber-200 p-5">
               <div class="flex items-center gap-2 mb-3 text-xs font-semibold text-amber-600 uppercase tracking-wider">
-                <.icon name="hero-building-office-2" class="size-4" />
-                Impact organisationnel
+                <.icon name="hero-building-office-2" class="size-4" /> Impact organisationnel
               </div>
               <div class="flex items-center gap-3">
                 <span class="text-2xl font-bold text-amber-700">{@org_count}</span>
                 <span class="text-sm text-amber-600">
-                  organisation(s) shadow{@org_count > 1 && "nt" || ""} cet événement
+                  organisation(s) shadow{(@org_count > 1 && "nt") || ""} cet événement
                 </span>
               </div>
               <p class="text-xs text-amber-500 mt-2">
@@ -205,8 +231,7 @@
             </div>
             <div :if={@org_count == 0} class="bg-gray-50 rounded-xl border border-gray-200 p-5">
               <div class="flex items-center gap-2 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                <.icon name="hero-building-office-2" class="size-4" />
-                Impact organisationnel
+                <.icon name="hero-building-office-2" class="size-4" /> Impact organisationnel
               </div>
               <p class="text-sm text-gray-400 italic">
                 Aucune organisation ne shadow cet événement pour le moment.
