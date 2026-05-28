@@ -85,12 +85,12 @@ defmodule TagIpWeb.EventEditLive do
 
       {:error, error} ->
         errors = extract_errors(error)
-        message = Enum.map_join(errors, "; ", fn {_field, msg} -> msg end)
+        message = build_error_message(errors, params)
         form = to_form(params, as: :event_definition, errors: errors)
         {:noreply,
          socket
          |> assign(form: form)
-         |> put_flash(:error, "Erreur : #{message}")}
+         |> put_flash(:error, message)}
     end
   end
 
@@ -113,6 +113,22 @@ defmodule TagIpWeb.EventEditLive do
 
       {:error, error} ->
         {:noreply, put_flash(socket, :error, "Erreur lors de la suppression : #{Exception.message(error)}")}
+    end
+  end
+
+  defp build_error_message(errors, params) do
+    code = params["code"]
+
+    duplicate = Enum.find(errors, fn {field, msg} ->
+      String.contains?(String.downcase(msg), ["already", "unique", "existe", "contrainte", "duplicate"]) or
+        (field == "code" and String.contains?(String.downcase(msg), ["pris", "existe", "utilisé"]))
+    end)
+
+    if duplicate do
+      "❌ Le code « #{code} » existe déjà dans le catalogue global"
+    else
+      msg = Enum.map_join(errors, "; ", fn {_field, msg} -> msg end)
+      "Erreur : #{msg}"
     end
   end
 
@@ -145,6 +161,9 @@ defmodule TagIpWeb.EventEditLive do
               [{field_name(other), Exception.message(other)}]
           end
         end)
+
+      %{message: message} ->
+        [{"base", message}]
 
       _ ->
         [{"base", Exception.message(error)}]

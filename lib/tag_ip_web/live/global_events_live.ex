@@ -10,12 +10,16 @@ defmodule TagIpWeb.GlobalEventsLive do
       Phoenix.PubSub.subscribe(TagIp.PubSub, "global_events")
     end
 
-    {:ok, assign(socket, events: load_events())}
+    {:ok,
+     assign(socket,
+       events: load_events(),
+       filter: "all"
+     )}
   end
 
   @impl true
-  def handle_event("mark_all_read", _params, socket) do
-    {:noreply, put_flash(socket, :info, "Toutes les notifications ont été marquées comme lues")}
+  def handle_event("filter", %{"filter" => filter}, socket) do
+    {:noreply, assign(socket, filter: filter, events: load_events(filter))}
   end
 
   @impl true
@@ -24,71 +28,113 @@ defmodule TagIpWeb.GlobalEventsLive do
 
     events = socket.assigns.events
     target_event = Enum.find(events, fn e -> to_string(e.id) == to_string(id) end)
-    new_status = !target_event.active
 
-    from(e in "event_definitions", where: e.id == type(^binary_id, Ecto.UUID))
-    |> Repo.update_all(set: [active: new_status])
+    if target_event do
+      new_status = !target_event.active
 
-    Phoenix.PubSub.broadcast(
-      TagIp.PubSub,
-      "global_events",
-      {:global_event_toggled, id, new_status}
-    )
+      from(e in "event_definitions", where: e.id == type(^binary_id, Ecto.UUID))
+      |> Repo.update_all(set: [active: new_status])
 
-    updated_events =
-      Enum.map(events, fn event ->
-        if to_string(event.id) == to_string(id) do
-          %{event | active: new_status}
-        else
-          event
-        end
-      end)
+      Phoenix.PubSub.broadcast(
+        TagIp.PubSub,
+        "global_events",
+        {:global_event_toggled, id, new_status}
+      )
 
-    {:noreply, assign(socket, events: updated_events)}
+      updated_events =
+        Enum.map(events, fn event ->
+          if to_string(event.id) == to_string(id) do
+            %{event | active: new_status}
+          else
+            event
+          end
+        end)
+
+      {:noreply, assign(socket, events: updated_events)}
+    else
+      {:noreply, socket}
+    end
   end
 
   @impl true
   def handle_info({:event_created, _id}, socket) do
-    {:noreply, assign(socket, events: load_events())}
+    {:noreply, assign(socket, events: load_events(socket.assigns.filter))}
   end
 
   @impl true
   def handle_info({:event_updated, _id}, socket) do
-    {:noreply, assign(socket, events: load_events())}
+    {:noreply, assign(socket, events: load_events(socket.assigns.filter))}
   end
 
   @impl true
   def handle_info({:event_deleted, _id}, socket) do
-    {:noreply, assign(socket, events: load_events())}
+    {:noreply, assign(socket, events: load_events(socket.assigns.filter))}
   end
 
   @impl true
   def handle_info({:global_event_toggled, _id, _active}, socket) do
-    {:noreply, assign(socket, events: load_events())}
+    {:noreply, assign(socket, events: load_events(socket.assigns.filter))}
   end
 
   @impl true
   def handle_info({:global_reset, _active}, socket) do
-    {:noreply, assign(socket, events: load_events())}
+    {:noreply, assign(socket, events: load_events(socket.assigns.filter))}
   end
 
   @impl true
   def handle_info(_msg, socket), do: {:noreply, socket}
 
-  defp load_events do
-    from(e in "event_definitions",
-      select: %{
-        id: e.id,
-        code: e.code,
-        name: e.name,
-        definition: e.definition,
-        monitor_type: e.monitor_type,
-        active: e.active
-      },
-      order_by: e.code
-    )
-    |> Repo.all()
-    |> Enum.map(fn event -> %{event | id: normalize_uuid(event.id)} end)
+  defp load_events(filter \\ "all") do
+    events =
+      if filter != "all" do
+        from(e in "event_definitions",
+          where: e.category == type(^filter, :string),
+          select: %{
+            id: e.id,
+            code: e.code,
+            name: e.name,
+            definition: e.definition,
+            category: e.category,
+            class: e.class,
+            level: e.level,
+            level_group: e.level_group,
+            monitor_type: e.monitor_type,
+            active: e.active
+          },
+          order_by: e.code
+        )
+        |> Repo.all()
+      else
+        from(e in "event_definitions",
+          select: %{
+            id: e.id,
+            code: e.code,
+            name: e.name,
+            definition: e.definition,
+            category: e.category,
+            class: e.class,
+            level: e.level,
+            level_group: e.level_group,
+            monitor_type: e.monitor_type,
+            active: e.active
+          },
+          order_by: e.code
+        )
+        |> Repo.all()
+      end
+      |> Enum.map(fn event -> %{event | id: normalize_uuid(event.id)} end)
+
+    org_counts =
+      from(oed in "organization_event_definitions",
+        select: %{event_definition_id: oed.event_definition_id, count: count(oed.id)},
+        group_by: oed.event_definition_id
+      )
+      |> Repo.all()
+      |> Map.new(fn %{event_definition_id: eid, count: cnt} -> {normalize_uuid(eid), cnt} end)
+
+    Enum.map(events, fn event ->
+      Map.put(event, :org_count, Map.get(org_counts, event.id, 0))
+    end)
   end
 
   defp normalize_uuid(id) when is_binary(id) do
