@@ -1,4 +1,4 @@
-defmodule TagIp.Repo.Migrations.CreateOrganizations do
+defmodule EventDefinition.Repo.Migrations.CreateOrganizations do
   use Ecto.Migration
 
   def change do

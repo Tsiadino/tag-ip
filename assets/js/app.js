@@ -23,7 +23,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 // Commenté pour corriger l'erreur de build d'esbuild
-// import {hooks as colocatedHooks} from "phoenix-colocated/tag_ip"
+// import {hooks as colocatedHooks} from "phoenix-colocated/event_definition"
 import topbar from "../vendor/topbar"
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")

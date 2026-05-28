@@ -1,5 +1,5 @@
 alias Ecto.UUID
-alias TagIp.Repo
+alias EventDefinition.Repo
 alias NimbleCSV.RFC4180, as: CSV
 
 # Create default super-admin user

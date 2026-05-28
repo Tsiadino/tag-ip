@@ -1,4 +1,4 @@
-defmodule TagIp.Repo.Migrations.AddAuditLogs do
+defmodule EventDefinition.Repo.Migrations.AddAuditLogs do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 

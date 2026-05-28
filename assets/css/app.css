@@ -1,7 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../css";
 @source "../js";
-@source "../../lib/tag_ip_web";
+@source "../../lib/event_definition_web";
 
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;

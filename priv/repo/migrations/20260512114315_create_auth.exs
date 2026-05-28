@@ -1,4 +1,4 @@
-defmodule TagIp.Repo.Migrations.CreateAuth do
+defmodule EventDefinition.Repo.Migrations.CreateAuth do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 

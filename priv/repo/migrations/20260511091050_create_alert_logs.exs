@@ -1,4 +1,4 @@
-defmodule TagIp.Repo.Migrations.CreateAlertLogs do
+defmodule EventDefinition.Repo.Migrations.CreateAlertLogs do
   @moduledoc """
   Migration nettoyée manuellement pour ne créer que la table alert_logs.
   """

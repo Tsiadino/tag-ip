@@ -98,7 +98,7 @@
     "global": null,
     "strategy": null
   },
-  "repo": "Elixir.TagIp.Repo",
+  "repo": "Elixir.EventDefinition.Repo",
   "schema": null,
   "table": "tokens"
 }

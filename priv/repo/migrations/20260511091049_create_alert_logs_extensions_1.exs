@@ -1,4 +1,4 @@
-defmodule TagIp.Repo.Migrations.CreateAlertLogsExtensions1 do
+defmodule EventDefinition.Repo.Migrations.CreateAlertLogsExtensions1 do
   @moduledoc """
   Installs any extensions that are mentioned in the repo's `installed_extensions/0` callback
 

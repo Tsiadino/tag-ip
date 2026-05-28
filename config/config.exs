@@ -7,15 +7,15 @@
 import Config
 
 # 1. CONFIGURATION GÉNÉRALE DE L'APPLICATION (Très Important !)
-config :tag_ip,
-  ecto_repos: [TagIp.Repo],
+config :event_definition,
+  ecto_repos: [EventDefinition.Repo],
   # <-- REPLACÉ ICI : indispensable pour Ash 3.0
-  ash_domains: [TagIp.Domain, TagIp.Accounts],
+  ash_domains: [EventDefinition.Domain, EventDefinition.Accounts],
   generators: [timestamp_type: :utc_datetime]
 
 # 2. CONFIGURATION D'ASH ADMIN
 config :ash_admin,
-  domains: [TagIp.Domain, TagIp.Accounts],
+  domains: [EventDefinition.Domain, EventDefinition.Accounts],
   show_sensitive_data_on_relationship_selection?: true
 
 # Désactivation temporaire des policies pour éviter les blocages d'affichage
@@ -26,23 +26,23 @@ config :ash_authentication_phoenix,
   auth_routes_prefix: "/auth"
 
 # Configure the endpoint
-config :tag_ip, TagIpWeb.Endpoint,
+config :event_definition, EventDefinitionWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: TagIpWeb.ErrorHTML, json: TagIpWeb.ErrorJSON],
+    formats: [html: EventDefinitionWeb.ErrorHTML, json: EventDefinitionWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: TagIp.PubSub,
+  pubsub_server: EventDefinition.PubSub,
   live_view: [signing_salt: "Jj5+dlIz"]
 
 # Configure the mailer
-config :tag_ip, TagIp.Mailer, adapter: Swoosh.Adapters.Local
+config :event_definition, EventDefinition.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.25.4",
-  tag_ip: [
+  event_definition: [
     args:
       ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=.),
     cd: Path.expand("../assets", __DIR__),
@@ -52,7 +52,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "4.1.12",
-  tag_ip: [
+  event_definition: [
     args: ~w(
       --input=assets/css/app.css
       --output=priv/static/assets/css/app.css

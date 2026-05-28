@@ -1,9 +1,9 @@
-defmodule TagIp.MixProject do
+defmodule EventDefinition.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :tag_ip,
+      app: :event_definition,
       version: "0.1.0",
       elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -21,7 +21,7 @@ defmodule TagIp.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {TagIp.Application, []},
+      mod: {EventDefinition.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -92,10 +92,10 @@ defmodule TagIp.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["compile", "tailwind tag_ip", "esbuild tag_ip"],
+      "assets.build": ["compile", "tailwind event_definition", "esbuild event_definition"],
       "assets.deploy": [
-        "tailwind tag_ip --minify",
-        "esbuild tag_ip --minify",
+        "tailwind event_definition --minify",
+        "esbuild event_definition --minify",
         "phx.digest"
       ],
       precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]

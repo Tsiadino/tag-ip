@@ -1,0 +1,54 @@
+<Layouts.auth flash={@flash}>
+  <div class="mb-8 text-center">
+    <p class="text-sm uppercase tracking-[0.4em] text-slate-400">Créer un compte</p>
+    <h1 class="mt-4 text-3xl font-semibold text-slate-900">Rejoignez Event-Definition</h1>
+    <p class="mt-2 text-sm text-slate-500">
+      Créez votre compte et accédez à votre tableau de bord.
+    </p>
+  </div>
+
+  <%= if error = Phoenix.Flash.get(@flash, :error) do %>
+    <div class="mb-6 rounded-2xl bg-red-50 border border-red-100 p-4 text-sm text-red-700">
+      {error}
+    </div>
+  <% end %>
+
+  <.form for={@form} id="register-form" action={~p"/register"} method="post" class="space-y-6">
+    <.input
+      field={@form[:email]}
+      type="email"
+      label="Email"
+      required
+      class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+    />
+
+    <.input
+      field={@form[:password]}
+      type="password"
+      label="Mot de passe"
+      required
+      class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+    />
+
+    <.input
+      field={@form[:password_confirmation]}
+      type="password"
+      label="Confirmation du mot de passe"
+      required
+      class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+    />
+
+    <div class="flex justify-between items-center text-xs uppercase tracking-[0.28em] text-slate-500">
+      <.link navigate="/login" class="hover:text-blue-600 transition-colors">
+        Déjà un compte ?
+      </.link>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full rounded-2xl bg-slate-900 py-3 text-sm font-semibold uppercase tracking-[0.24em] text-white shadow-lg shadow-slate-900/10 transition hover:bg-slate-800"
+    >
+      Créer mon compte
+    </button>
+  </.form>
+</Layouts.auth>

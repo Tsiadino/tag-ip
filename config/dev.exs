@@ -1,11 +1,11 @@
 import Config
 
 # Configure your database
-config :tag_ip, TagIp.Repo,
+config :event_definition, EventDefinition.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "tag_ip_dev",
+  database: "event_definition_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10,
@@ -17,7 +17,7 @@ config :tag_ip, TagIp.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :tag_ip, TagIpWeb.Endpoint,
+config :event_definition, EventDefinitionWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}],
@@ -26,8 +26,8 @@ config :tag_ip, TagIpWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "Pijfn03BeLdu/TTOEa0w3UU9824ZTLyhjd+ql9Q4XCaQIkzScE8q+Gd22QGCJ4t3",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:tag_ip, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:tag_ip, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:event_definition, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:event_definition, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -54,7 +54,7 @@ config :tag_ip, TagIpWeb.Endpoint,
 # different ports.
 
 # Reload browser tabs when matching files change.
-config :tag_ip, TagIpWeb.Endpoint,
+config :event_definition, EventDefinitionWeb.Endpoint,
   live_reload: [
     web_console_logger: true,
     patterns: [
@@ -63,13 +63,13 @@ config :tag_ip, TagIpWeb.Endpoint,
       # Gettext translations
       ~r"priv/gettext/.*\.po$",
       # Router, Controllers, LiveViews and LiveComponents
-      ~r"lib/tag_ip_web/router\.ex$",
-      ~r"lib/tag_ip_web/(controllers|live|components)/.*\.(ex|heex)$"
+      ~r"lib/event_definition_web/router\.ex$",
+      ~r"lib/event_definition_web/(controllers|live|components)/.*\.(ex|heex)$"
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :tag_ip, dev_routes: true
+config :event_definition, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :default_formatter, format: "[$level] $message\n"
